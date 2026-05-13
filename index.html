@@ -559,26 +559,26 @@ footer{
       <div class="form-row">
         <div class="form-group">
           <label><span class="t-pt">Nome</span><span class="t-en">Name</span></label>
-          <input type="text" placeholder="O seu nome / Your name" required/>
+          <input type="text" name="nome" placeholder="O seu nome / Your name" required/>
         </div>
         <div class="form-group">
           <label>Email</label>
-          <input type="email" placeholder="email@restaurant.com" required/>
+          <input type="email" name="email" placeholder="email@restaurant.com" required/>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label><span class="t-pt">Telefone</span><span class="t-en">Phone</span></label>
-          <input type="tel" placeholder="+351 900 000 000"/>
+          <input type="tel" name="telefone" placeholder="+351 900 000 000"/>
         </div>
         <div class="form-group">
           <label><span class="t-pt">Estabelecimento</span><span class="t-en">Business Name</span></label>
-          <input type="text" placeholder="Restaurant name"/>
+          <input type="text" name="estabelecimento" placeholder="Restaurant name"/>
         </div>
       </div>
       <div class="form-group">
         <label><span class="t-pt">Área de interesse</span><span class="t-en">Area of interest</span></label>
-        <select>
+        <select name="area_interesse">
           <option value="">Seleccionar...</option>
           <option>Tecnologia — Ementa Digital / QR</option>
           <option>Tecnologia — Digital Signage</option>
@@ -590,7 +590,7 @@ footer{
       </div>
       <div class="form-group">
         <label><span class="t-pt">Mensagem</span><span class="t-en">Message</span></label>
-        <textarea placeholder="Tell us about your business and what you're looking for..."></textarea>
+        <textarea name="mensagem" placeholder="Tell us about your business and what you're looking for..."></textarea>
       </div>
       <button type="submit" class="form-submit"><span class="t-pt">Enviar Mensagem →</span><span class="t-en">Send Message →</span></button>
       <p class="form-note"><span class="t-pt">Sem spam · Sem compromisso</span><span class="t-en">No spam · No commitment</span></p>
