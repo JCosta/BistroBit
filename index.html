@@ -606,11 +606,31 @@ const obs = new IntersectionObserver(entries => {
 }, {threshold: .12});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// Form submit simulation
-function handleSubmit(e) {
+// Form submit — envia para Formspree e mostra sucesso
+async function handleSubmit(e) {
   e.preventDefault();
-  document.getElementById('contact-form').style.display = 'none';
-  document.getElementById('form-success').classList.add('show');
+  const form = document.getElementById('contact-form');
+  const btn  = form.querySelector('.form-submit');
+  btn.textContent = 'A enviar...';
+  btn.disabled = true;
+  try {
+    const data = new FormData(form);
+    const res  = await fetch('https://formspree.io/f/xlgzkjdk', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('form-success').classList.add('show');
+    } else {
+      btn.textContent = 'Erro — tente novamente';
+      btn.disabled = false;
+    }
+  } catch(err) {
+    btn.textContent = 'Erro — tente novamente';
+    btn.disabled = false;
+  }
 }
 </script>
 </body>
