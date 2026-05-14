@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TN3GY4CSR7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-TN3GY4CSR7');
-</script>
-
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="description" content="Bistrobit — Tecnologia, Consumíveis e Têxteis para a Restauração. Transformamos a experiência do seu negócio."/>
@@ -54,6 +44,31 @@ body.lang-en .b-en{display:block;}
 .lang-btn.active{background:var(--orange);color:#fff;}
 .lang-btn:not(.active):hover{color:var(--text);}
 
+
+/* ══ COMING SOON ══ */
+.sector-cs{
+  position:absolute;top:1rem;right:1rem;
+  background:rgba(232,112,58,.15);border:1px solid rgba(232,112,58,.4);
+  border-radius:20px;padding:.22rem .7rem;
+  font-family:var(--fm);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--orange);
+}
+.sector-cs::before{content:'◉ ';font-size:.5rem;animation:blink 2s infinite;}
+/* Sector image */
+.sector-img{
+  width:100%;height:140px;object-fit:cover;border-radius:6px;
+  margin-bottom:1.2rem;opacity:.75;
+  filter:saturate(1.2) brightness(.85);
+  transition:opacity .3s,filter .3s;
+}
+.sector:hover .sector-img{opacity:.9;filter:saturate(1.4) brightness(.95);}
+.sector-img-wrap{
+  position:relative;border-radius:6px;overflow:hidden;margin-bottom:1.2rem;
+}
+.sector-img-wrap::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 40%,rgba(8,12,16,.7));
+}
 /* ══ NOISE TEXTURE ══ */
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
@@ -222,7 +237,7 @@ body::before{
 .stat-label{font-size:.72rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem;}
 
 /* ══ SECTORS ══ */
-.sectors{padding:7rem 2rem;max-width:1100px;margin:0 auto;}
+.sectors{padding:7rem 2rem;max-width:960px;margin:0 auto;text-align:center;}
 .sectors-eyebrow{
   font-family:var(--fm);font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;
   color:var(--orange);text-align:center;margin-bottom:.8rem;
@@ -239,11 +254,13 @@ body::before{
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:1.5px;background:var(--border);
   border:1px solid var(--border);border-radius:8px;overflow:hidden;
+  max-width:960px;margin:0 auto;
 }
 .sector{
   background:var(--bg2);padding:2.8rem 2.2rem;
   position:relative;overflow:hidden;
   transition:background .3s;
+  text-align:left;
 }
 .sector:hover{background:var(--surface);}
 .sector::before{
@@ -463,62 +480,73 @@ footer{
     <!-- Sector 1: Tech -->
     <div class="sector reveal">
       <span class="sector-num">01 —</span>
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=85&auto=format&fit=crop" alt="Technology" loading="lazy"/>
+      </div>
       <div class="sector-icon tech">⚡</div>
-      <span class="sector-tag tech">Tecnologia & Processos</span>
+      <span class="sector-tag tech"><span class="t-pt">Tecnologia & Processos</span><span class="t-en">Tech & Processes</span></span>
       <h3 class="sector-name"><span class="t-pt">SISTEMAS<br>INTELIGENTES</span><span class="t-en">INTELLIGENT<br>SYSTEMS</span></h3>
-      <p class="sector-desc"><span class="t-pt">Transformamos operações analógicas em experiências digitais que impressionam. Ementas digitais actualizadas em tempo real, ecrãs digitais dinâmicos que vendem por si, e sistemas de gestão de filas que eliminam a espera — tudo integrado, tudo simples de gerir.</span><span class="t-en">We transform analogue operations into impressive digital experiences. Real-time digital menus, self-selling digital signage, and queue management systems that eliminate waiting — all integrated, all simple to manage.</span></p>
+      <p class="sector-desc"><span class="t-pt">Transformamos operações analógicas em experiências digitais que impressionam. Ementas digitais actualizadas em tempo real, ecrãs digitais dinâmicos que vendem por si, e sistemas de gestão de filas que eliminam a espera — tudo integrado, tudo simples de gerir.</span><span class="t-en">We transform analogue operations into impressive digital experiences. Real-time digital menus, dynamic digital screens that sell for you, and queue management systems that eliminate waiting — all integrated, all simple to manage.</span></p>
       <div class="sector-pills">
-        <span class="pill">Ementa Digital QR</span>
+        <span class="pill"><span class="t-pt">Ementa Digital QR</span><span class="t-en">Digital Menu QR</span></span>
         <span class="pill"><span class="t-pt">Ecrãs Digitais</span><span class="t-en">Digital Signage</span></span>
-        <span class="pill">Gestão de Filas</span>
-        <span class="pill">Multilíngue</span>
+        <span class="pill"><span class="t-pt">Gestão de Filas</span><span class="t-en">Queue Management</span></span>
+        <span class="pill"><span class="t-pt">Multilíngue</span><span class="t-en">Multilingual</span></span>
         <span class="pill">Real-Time Updates</span>
       </div>
       <div class="sector-arrow">→</div>
     </div>
 
-    <!-- Sector 2: Packing -->
+    <!-- Sector 2: Packing — COMING SOON -->
     <div class="sector reveal">
+      <span class="sector-cs"><span class="t-pt">Em Breve</span><span class="t-en">Coming Soon</span></span>
       <span class="sector-num">02 —</span>
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://raw.githubusercontent.com/JCosta/BistroBit/main/images/packaging.jpg" alt="Packaging" loading="lazy"/>
+      </div>
       <div class="sector-icon pack">📦</div>
-      <span class="sector-tag pack">Consumíveis & Embalagens</span>
+      <span class="sector-tag pack"><span class="t-pt">Consumíveis & Embalagens</span><span class="t-en">Food Packaging & Consumables</span></span>
       <h3 class="sector-name"><span class="t-pt">TUDO O QUE<br>PRECISA</span><span class="t-en">EVERYTHING<br>YOU NEED</span></h3>
       <p class="sector-desc"><span class="t-pt">Uma loja completa para a restauração — sem intermediários, sem complexidade. Do alumínio ao papel kraft, dos detergentes aos consumíveis diários: abastecemos o seu negócio com rapidez, qualidade e preços que fazem sentido para o seu bottom line.</span><span class="t-en">A complete store for hospitality — no middlemen, no complexity. From aluminium to kraft paper, detergents to daily consumables: we supply your business with speed, quality and prices that make sense for your bottom line.</span></p>
       <div class="sector-pills">
-        <span class="pill">Embalagens Alumínio</span>
-        <span class="pill">Papel & Kraft</span>
-        <span class="pill">Consumíveis</span>
-        <span class="pill">Detergentes</span>
+        <span class="pill"><span class="t-pt">Embalagens Alumínio</span><span class="t-en">Aluminium Packaging</span></span>
+        <span class="pill"><span class="t-pt">Papel & Kraft</span><span class="t-en">Paper & Kraft</span></span>
+        <span class="pill"><span class="t-pt">Consumíveis</span><span class="t-en">Consumables</span></span>
+        <span class="pill"><span class="t-pt">Detergentes</span><span class="t-en">Detergents</span></span>
         <span class="pill">Take-away</span>
       </div>
-      <div class="sector-arrow">→</div>
     </div>
 
-    <!-- Sector 3: Textiles -->
+    <!-- Sector 3: Textiles — COMING SOON -->
     <div class="sector reveal">
+      <span class="sector-cs"><span class="t-pt">Em Breve</span><span class="t-en">Coming Soon</span></span>
       <span class="sector-num">03 —</span>
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=85&auto=format&fit=crop" alt="Uniforms" loading="lazy"/>
+      </div>
       <div class="sector-icon text">👔</div>
-      <span class="sector-tag text-tag">Têxteis & Fardamento</span>
+      <span class="sector-tag text-tag"><span class="t-pt">Têxteis & Fardamento</span><span class="t-en">Restaurant Textiles & Uniforms</span></span>
       <h3 class="sector-name"><span class="t-pt">A IMAGEM<br>DA SUA EQUIPA</span><span class="t-en">YOUR TEAM'S<br>IMAGE</span></h3>
       <p class="sector-desc"><span class="t-pt">A identidade do seu estabelecimento começa nas pessoas. Fornecemos fardamento personalizado e têxteis de qualidade — jalecas, aventais, toucas, luvas, guardanapos de pano, porta-contas e ementas físicas — que projetam profissionalismo em cada detalhe.</span><span class="t-en">Your establishment's identity starts with people. We provide personalised uniforms and quality textiles — chef jackets, aprons, caps, gloves, cloth napkins, bill holders and physical menus — that project professionalism in every detail.</span></p>
       <div class="sector-pills">
-        <span class="pill">Jalecas</span>
-        <span class="pill">Aventais</span>
-        <span class="pill">Guardanapos</span>
-        <span class="pill">Porta-contas</span>
-        <span class="pill">Personalizado</span>
+        <span class="pill"><span class="t-pt">Jalecas</span><span class="t-en">Chef Jackets</span></span>
+        <span class="pill"><span class="t-pt">Aventais</span><span class="t-en">Aprons</span></span>
+        <span class="pill"><span class="t-pt">Guardanapos</span><span class="t-en">Napkins</span></span>
+        <span class="pill"><span class="t-pt">Porta-contas</span><span class="t-en">Bill Holders</span></span>
+        <span class="pill"><span class="t-pt">Personalizado</span><span class="t-en">Customised</span></span>
       </div>
-      <div class="sector-arrow">→</div>
     </div>
 
-  </div>
+  
+</div><!-- /sectors-grid -->
+
 </section>
 
 <!-- WHY -->
 <section class="why" id="porque">
   <div class="why-inner">
     <div class="why-left reveal">
-      <p class="eyebrow">Porquê Bistrobit</p>
+      <p class="eyebrow"><span class="t-pt">Porquê Bistrobit</span><span class="t-en">Why Bistrobit</span></p>
       <h2><span class="t-pt">Parceiros do<br>seu sucesso.</span><span class="t-en">Partners in<br>your success.</span></h2>
       <p><span class="t-pt">Não somos apenas um fornecedor. Somos o parceiro que conhece a restauração por dentro — e que existe para simplificar cada decisão operacional do seu negócio.</span><span class="t-en">We are not just a supplier. We are the partner that knows hospitality from the inside — and exists to simplify every operational decision in your business.</span></p>
       <p><span class="t-pt">De uma ementa digital a um avental personalizado, cada solução Bistrobit foi pensada para poupar tempo, reduzir custos e elevar a experiência dos seus clientes.</span><span class="t-en">From a digital menu to a personalised apron, every Bistrobit solution was designed to save time, reduce costs and elevate your customers' experience.</span></p>
@@ -535,7 +563,7 @@ footer{
         <div class="why-feat-icon">⚡</div>
         <div class="why-feat-body">
           <h4><span class="t-pt">Implementação Rápida</span><span class="t-en">Fast Implementation</span></h4>
-          <p><span class="t-pt">Uma ementa digital ou ecrã dinâmico operacional em menos de 24 horas. Sem complexidade técnica da sua parte.</span><span class="t-en">A digital menu up and running in under 24 hours. No technical complexity on your end.</span></p>
+          <p><span class="t-pt">Uma ementa digital ou ecrã dinâmico operacional em menos de 24 horas. Sem complexidade técnica da sua parte.</span><span class="t-en">A digital menu or dynamic screen up and running in under 24 hours. No technical complexity on your end.</span></p>
         </div>
       </div>
       <div class="why-feat">
@@ -583,20 +611,19 @@ footer{
         </div>
         <div class="form-group">
           <label><span class="t-pt">Estabelecimento</span><span class="t-en">Business Name</span></label>
-          <input type="text" name="estabelecimento" placeholder="Restaurante / Restaurant name"/>
+          <input type="text" name="estabelecimento" placeholder="Restaurant name"/>
         </div>
       </div>
       <div class="form-group">
         <label><span class="t-pt">Área de interesse</span><span class="t-en">Area of interest</span></label>
         <select name="area_interesse">
-          <option value="">Seleccionar.../ Choose the best option</option>
-          <option>Tecnologia — Ementa Digital / QR</option>
-          <option class="t-pt" value="Tecnologia — Ecrãs Digitais Dinâmicos">Tecnologia — Ecrãs Digitais Dinâmicos</option>
-          <option class="t-en" value="Technology — Digital Signage" style="display:none">Technology — Digital Signage</option>
-          <option>Tecnologia — Gestão de Filas</option>
-          <option>Consumíveis & Embalagens</option>
-          <option>Têxteis & Fardamento</option>
-          <option>Solução Completa</option>
+          <option value="">Seleccionar...</option>
+          <option value="Tecnologia — Ementa Digital / QR">Tecnologia — Ementa Digital / QR</option>
+          <option value="Tecnologia — Ecrãs Digitais Dinâmicos">Tecnologia — Ecrãs Digitais Dinâmicos</option>
+          <option value="Tecnologia — Gestão de Filas">Tecnologia — Gestão de Filas</option>
+          <option value="Consumíveis & Embalagens">Consumíveis & Embalagens</option>
+          <option value="Têxteis & Fardamento">Têxteis & Fardamento</option>
+          <option value="Solução Completa">Solução Completa</option>
         </select>
       </div>
       <div class="form-group">
@@ -622,65 +649,64 @@ footer{
       <span class="footer-logo-name">Bistro<span>bit</span></span>
     </div>
     <div class="footer-links">
-      <a href="#sectores">Sectores</a>
-      <a href="#porque">Porquê Bistrobit</a>
-      <a href="#contacto">Contacto</a>
-      <a href="mailto:info@bistrobit.pt"><span class="t-pt">info@bistrobit.pt</span><span class="t-en">info@bistrobit.fyi</span></a>
+      <a href="#sectores"><span class="t-pt">Sectores</span><span class="t-en">Sectors</span></a>
+      <a href="#porque"><span class="t-pt">Porquê Bistrobit</span><span class="t-en">Why Bistrobit</span></a>
+      <a href="#contacto"><span class="t-pt">Contacto</span><span class="t-en">Contact</span></a>
+      <a href="mailto:info@bistrobit.fyi">info@bistrobit.fyi</a>
     </div>
-    <p class="footer-copy"><span class="t-pt">© 2026 BISTROBIT · WHERE HOSPITALITY MEETS TECHNOLOGY</span><span class="t-en">© 2026 BISTROBIT · WHERE HOSPITALITY MEETS TECHNOLOGY</span></p>
+    <p class="footer-copy">© 2026 BISTROBIT · WHERE HOSPITALITY MEETS TECHNOLOGY</p>
   </div>
 </footer>
 
 <script>
-// Language switcher
+const SELECT_OPTIONS = {
+  pt: ['Seleccionar...','Tecnologia — Ementa Digital / QR','Tecnologia — Ecrãs Digitais Dinâmicos','Tecnologia — Gestão de Filas','Consumíveis & Embalagens','Têxteis & Fardamento','Solução Completa'],
+  en: ['Select...','Tech — Digital Menu / QR','Tech — Digital Screens','Tech — Queue Management','Food Packaging & Consumables','Restaurant Textiles & Uniforms','Complete Solution']
+};
 function setLang(l){
   document.body.classList.remove('lang-pt','lang-en');
   document.body.classList.add('lang-'+l);
   document.getElementById('btn-pt').classList.toggle('active', l==='pt');
   document.getElementById('btn-en').classList.toggle('active', l==='en');
   document.documentElement.lang = l;
+  const sel = document.querySelector('select[name="area_interesse"]');
+  if(sel){ SELECT_OPTIONS[l].forEach((txt,i)=>{ if(sel.options[i]) sel.options[i].text=txt; }); }
   try{ localStorage.setItem('bbLang',l); }catch(e){}
 }
 (function(){
   try{ const l=localStorage.getItem('bbLang'); if(l) setLang(l); }catch(e){}
 })();
 
-// Scroll reveal
 const obs = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if(e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i * 80);
+  entries.forEach((e,i) => {
+    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('vis'),i*80);
   });
-}, {threshold: .12});
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// Form submit — envia para Formspree e mostra sucesso
-async function handleSubmit(e) {
+async function handleSubmit(e){
   e.preventDefault();
-  const form = document.getElementById('contact-form');
-  const btn  = form.querySelector('.form-submit');
-  btn.textContent = 'A enviar...';
-  btn.disabled = true;
-  try {
-    const data = new FormData(form);
-    const res  = await fetch('https://formspree.io/f/xlgzkjdk', {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    });
-    if (res.ok) {
-      form.style.display = 'none';
+  const form=document.getElementById('contact-form');
+  const btn=form.querySelector('.form-submit');
+  btn.innerHTML='<span class="t-pt">A enviar...</span><span class="t-en">Sending...</span>';
+  btn.disabled=true;
+  try{
+    const data=new FormData(form);
+    const res=await fetch('https://formspree.io/f/xlgzkjdk',{method:'POST',body:data,headers:{Accept:'application/json'}});
+    if(res.ok){
+      form.style.display='none';
       document.getElementById('form-success').classList.add('show');
     } else {
-      const json = await res.json().catch(()=>({}));
-      const msg = json.error || `Erro ${res.status}`;
-      btn.innerHTML = '<span class="t-pt">Erro — tente novamente</span><span class="t-en">Error — try again</span>';
-      btn.disabled = false;
-      console.error('Formspree error:', msg, json);
-      alert('Formspree: ' + msg);
+      const json=await res.json().catch(()=>({}));
+      const msg=json.error||`Erro ${res.status}`;
+      btn.innerHTML='<span class="t-pt">Erro — tente novamente</span><span class="t-en">Error — try again</span>';
+      btn.disabled=false;
+      console.error('Formspree error:',msg,json);
+      alert('Formspree: '+msg);
     }
-  } catch(err) {
-    btn.textContent = 'Erro — tente novamente';
-    btn.disabled = false;
+  } catch(err){
+    btn.innerHTML='<span class="t-pt">Erro — tente novamente</span><span class="t-en">Error — try again</span>';
+    btn.disabled=false;
   }
 }
 </script>
@@ -692,6 +718,6 @@ async function handleSubmit(e) {
       if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) e.preventDefault();
       if (e.ctrlKey && e.key === 'U') e.preventDefault();
     });
-  </script>
+  </script>  
 </body>
 </html>
