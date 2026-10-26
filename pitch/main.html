@@ -49,7 +49,6 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 .bbroot{font-size:15px}
 .bbroot header{padding:20px 16px 56px!important}
 .bbroot section{padding:64px 16px!important}
-.bbroot .mtopnav{justify-content:center!important}
 .bbroot .mc{text-align:center!important;align-items:center!important;margin-left:auto!important;margin-right:auto!important}
 .bbroot .mbtns{flex-direction:column!important;align-items:stretch!important;text-align:center}
 .bbroot .mfacts{justify-content:center!important;text-align:center;gap:20px!important}
@@ -71,6 +70,14 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 .bbroot [style*="gap: 72px"]{gap:44px!important}
 .bbroot [style*="gap: 56px"],.bbroot [style*="gap: 64px"]{gap:36px!important}
 .bbroot .mrow{justify-content:center!important}
+.bbroot .mtopnav{justify-content:space-between!important;flex-wrap:nowrap!important;gap:10px!important}
+.bbroot .mtopnav img{width:60px!important;height:62px!important}
+.bbroot .mhide{display:none!important}
+.bbroot .mvis{flex-wrap:nowrap!important;justify-content:center!important;width:100%}
+.bbroot .mfig{position:absolute!important;left:0;bottom:24px;margin:0!important;z-index:4!important}
+.bbroot .mfig img{width:108px!important;height:134px!important;border-width:3px!important}
+.bbroot .mfig figcaption{font-size:10px!important;padding:3px 8px!important}
+.bbroot .msecnav a{min-height:36px!important;padding:0 14px!important;font-size:11px!important}
 .bbroot .mtc{text-align:center!important}
 .bbroot .mc > span{align-self:center!important}
 .bbroot [style*="padding-top: 28px; border-top: 1px solid var(--b-line3)"]{justify-content:center!important;text-align:center;flex-direction:column;align-items:center}
@@ -100,7 +107,7 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg>
 </sc-if>
 </button>
-<a href="#contacto" style="color: var(--b-text); font-size: 14px; text-decoration: none; border: 1px solid var(--b-line); border-radius: 999px; padding: 10px 20px">{{t.navCta}}</a>
+<a class="mhide" href="#contacto" style="color: var(--b-text); font-size: 14px; text-decoration: none; border: 1px solid var(--b-line); border-radius: 999px; padding: 10px 20px">{{t.navCta}}</a>
 </div>
 </nav>
 <div style="display: flex; flex-wrap: wrap; gap: 64px; align-items: center; justify-content: space-between">
@@ -119,7 +126,7 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 </div>
 </div>
 
-<div style="position: relative; flex: 0 1 500px; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; min-width: 0">
+<div class="mvis" style="position: relative; flex: 0 1 500px; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; min-width: 0">
 <div class="ph-float" style="position: absolute; top: 70px; right: 0; z-index: 3; background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 14px; padding: 10px 14px; box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; align-items: center; gap: 10px; max-width: 200px">
 <span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #14120E; display: flex; align-items: center; justify-content: center; font-size: 14px">★</span>
 <span style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12px; font-weight: 600; color: var(--b-ink)">{{t.coA}}</span><span style="font-size: 11px; color: var(--b-muted)">{{t.coAd}}</span></span>
@@ -128,7 +135,7 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 <span style="flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid {{accent}}; color: {{accentText}}; display: flex; align-items: center; justify-content: center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"></rect><circle cx="9" cy="9" r="1"></circle><circle cx="15" cy="15" r="1"></circle><circle cx="15" cy="9" r="1"></circle><circle cx="9" cy="15" r="1"></circle></svg></span>
 <span style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12px; font-weight: 600; color: var(--b-ink)">{{t.coB}}</span><span style="font-size: 11px; color: var(--b-muted)">{{t.coBd}}</span></span>
 </div>
-<figure style="flex: 0 0 172px; margin: 0 -14px 32px 0; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px">
+<figure class="mfig" style="flex: 0 0 172px; margin: 0 -14px 32px 0; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px">
 <img src="./assets/d3c42ae8fed6a98f1fa688d10569d986.jpg" alt="{{t.photoAlt}}" width="172" height="214" style="width: 172px; height: 214px; object-fit: cover; border-radius: 18px; border: 4px solid var(--b-bg); box-shadow: 0 24px 48px rgba(0,0,0,0.35); display: block">
 <figcaption style="font-size: 12px; letter-spacing: 0.08em; color: var(--b-muted); background: var(--b-bg); border: 1px solid var(--b-line); padding: 4px 12px; border-radius: 999px; white-space: nowrap">{{t.photoCap}}</figcaption>
 </figure>
@@ -252,11 +259,12 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 </div>
 </div>
 </header>
-<nav aria-label="{{t.navLabel}}" style="position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,0.06)">
-<div style="max-width: 1120px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; scrollbar-width: none">
-<sc-for list="{{t.navItems}}" as="ni" hint-placeholder-count="7">
-<a href="{{ni.h}}" style="flex: none; display: inline-flex; align-items: center; min-height: 48px; padding: 0 14px; font-size: 13px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none">{{ni.l}}</a>
+<nav aria-label="{{t.navLabel}}" style="position: sticky; top: 0; z-index: 20; background: var(--ink); box-shadow: 0 8px 24px rgba(0,0,0,0.18)">
+<div class="msecnav" style="max-width: 1120px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 8px; overflow-x: auto; white-space: nowrap; scrollbar-width: none">
+<sc-for list="{{t.navItems}}" as="ni" hint-placeholder-count="6">
+<a href="{{ni.h}}" style="flex: none; display: inline-flex; align-items: center; min-height: 38px; padding: 0 16px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bg); text-decoration: none; border: 1px solid rgba(128,128,128,0.45); border-radius: 999px">{{ni.l}}</a>
 </sc-for>
+<a href="#contacto" style="flex: none; display: inline-flex; align-items: center; min-height: 38px; padding: 0 18px; margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #14120E; background: {{accent}}; text-decoration: none; border-radius: 999px">{{t.navCta}}</a>
 </div>
 </nav>
 <section id="problema" style="scroll-margin-top: 64px; padding: 104px 24px 96px; background: var(--surface); border-bottom: 1px solid var(--line)">
@@ -718,7 +726,7 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 const PT = {
   langLabel: 'Idioma', navCta: 'Marcar demonstração',
   navLabel: 'Secções da página',
-  navItems: [{l:'O problema',h:'#problema'},{l:'A solução',h:'#solucao'},{l:'Vender mais',h:'#vender'},{l:'Caso real',h:'#caso'},{l:'Funcionalidades',h:'#funcionalidades'},{l:'Pacotes',h:'#pacotes'},{l:'Contacto',h:'#contacto'}],
+  navItems: [{l:'O problema',h:'#problema'},{l:'A solução',h:'#solucao'},{l:'Vender mais',h:'#vender'},{l:'Caso real',h:'#caso'},{l:'Funcionalidades',h:'#funcionalidades'},{l:'Pacotes',h:'#pacotes'}],
   pbEyebrow: 'O que se passa hoje à mesa',
   pbTitle: 'O cliente senta-se. E espera.',
   pbLead: 'Na maior parte dos restaurantes, a refeição começa com uma pausa: o cliente fica a aguardar que alguém tenha mãos livres para lhe trazer a ementa. Os primeiros minutos, os que definem a impressão da casa, são passados à espera.',
@@ -934,7 +942,7 @@ const PT = {
 const EN = {
   langLabel: 'Language', navCta: 'Book a demo',
   navLabel: 'Page sections',
-  navItems: [{l:'The problem',h:'#problema'},{l:'The solution',h:'#solucao'},{l:'Sell more',h:'#vender'},{l:'Real case',h:'#caso'},{l:'Features',h:'#funcionalidades'},{l:'Packages',h:'#pacotes'},{l:'Contact',h:'#contacto'}],
+  navItems: [{l:'The problem',h:'#problema'},{l:'The solution',h:'#solucao'},{l:'Sell more',h:'#vender'},{l:'Real case',h:'#caso'},{l:'Features',h:'#funcionalidades'},{l:'Packages',h:'#pacotes'}],
   pbEyebrow: 'What happens at the table today',
   pbTitle: 'The guest sits down. And waits.',
   pbLead: 'In most restaurants, the meal starts with a pause: guests wait until someone has a free hand to bring them the menu. The first minutes, the ones that shape their impression of the place, are spent waiting.',
