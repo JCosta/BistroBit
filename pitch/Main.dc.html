@@ -1,0 +1,1223 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<title>Bistrobit — Menu interativo</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Poppins:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:var(--gold)}a:hover{color:#5C4419}
+.ph-track{animation:phSlide 30s cubic-bezier(.65,0,.35,1) infinite}
+.ph-tabline{animation:phTab 30s cubic-bezier(.65,0,.35,1) infinite}
+.ph-scroll{animation:phScroll 5s ease-in-out infinite}
+.ph-sheet{animation:phSheet 30s cubic-bezier(.2,.8,.2,1) infinite}
+.ph-backdrop{animation:phBackdrop 30s linear infinite}
+.ph-step1{animation:phStep1 30s linear infinite}
+.ph-step2{animation:phStep2 30s linear infinite}
+.ph-pick{animation:phPick 30s ease infinite}
+.ph-tap{animation:phTap 30s ease-out infinite}
+.ph-res{animation:phRes 30s ease-in-out infinite}
+.ph-fab{animation:phFab 30s ease infinite}
+.ph-pulse{animation:phPulse 2.4s ease-out infinite}
+.ph-float{animation:phFloat 6s ease-in-out infinite}
+.ph-float2{animation-delay:-3s}
+@keyframes phFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.ph:hover .ph-anim{animation-play-state:paused}
+@keyframes phSlide{0%,12%{transform:translateX(0)}16%,28%{transform:translateX(-33.3333%)}32%,95%{transform:translateX(-66.6667%)}99%,100%{transform:translateX(0)}}
+@keyframes phTab{0%,12%{left:0}16%,28%{left:124px}32%,95%{left:186px}99%,100%{left:0}}
+@keyframes phScroll{0%,20%{transform:translateY(0)}50%,62%{transform:translateY(-150px)}92%,100%{transform:translateY(0)}}
+@keyframes phFab{0%,36%{transform:scale(1)}38%{transform:scale(1.12)}40%{transform:scale(.95)}42%,100%{transform:scale(1)}}
+@keyframes phSheet{0%,41%{transform:translateY(105%)}45%,92%{transform:translateY(0)}96%,100%{transform:translateY(105%)}}
+@keyframes phBackdrop{0%,41%{opacity:0}45%,92%{opacity:1}96%,100%{opacity:0}}
+@keyframes phStep1{0%,60%{opacity:1}62%,98%{opacity:0}100%{opacity:1}}
+@keyframes phStep2{0%,60%{opacity:0}62%,97%{opacity:1}99%,100%{opacity:0}}
+@keyframes phPick{0%,53%{background:#F7F1E6;border-color:#E6DCC8;transform:scale(1)}55%,61%{background:#EFE3C8;border-color:#B8860B;transform:scale(1.04)}63%,100%{background:#F7F1E6;border-color:#E6DCC8;transform:scale(1)}}
+@keyframes phTap{0%,52%{opacity:0;transform:scale(.4)}54%{opacity:1;transform:scale(1)}58%,100%{opacity:0;transform:scale(1.8)}}
+@keyframes phRes{0%,70%{transform:translateY(0)}80%,90%{transform:translateY(-120px)}96%,100%{transform:translateY(0)}}
+@keyframes phPulse{0%{box-shadow:0 0 0 0 rgba(201,165,92,.55)}70%,100%{box-shadow:0 0 0 10px rgba(201,165,92,0)}}
+@media (prefers-reduced-motion: reduce){.ph-anim,.ph-float{animation:none!important}}
+</style>
+</helmet>
+<div style="{{themeVars}} width: 100%; background: var(--bg); color: var(--text); transition: background 0.3s; font-family: Poppins, system-ui, sans-serif; font-size: 16px; line-height: 1.6">
+
+<header style="background: var(--b-bg); color: var(--b-text); padding: 28px 24px 104px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px">
+<nav style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px">
+<a href="https://bistrobit.fyi/" target="_blank" rel="noopener" aria-label="Bistrobit (abre bistrobit.fyi)" style="display: block; line-height: 0"><img src="{{logoSrc}}" alt="Bistrobit" width="80" height="83" style="width: 80px; height: 83px; display: block; object-fit: contain"></a>
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<div role="group" aria-label="{{t.langLabel}}" style="display: flex; border: 1px solid var(--b-line); border-radius: 999px; padding: 3px">
+<button type="button" onClick="{{setPT}}" aria-pressed="{{isPT}}" style="{{ptStyle}}">PT</button>
+<button type="button" onClick="{{setEN}}" aria-pressed="{{isEN}}" style="{{enStyle}}">EN</button>
+</div>
+<button type="button" onClick="{{toggleTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: transparent; color: var(--b-text); border: 1px solid var(--b-line); border-radius: 999px; cursor: pointer; padding: 0">
+<sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</sc-if>
+<sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg>
+</sc-if>
+</button>
+<a href="#contacto" style="color: var(--b-text); font-size: 14px; text-decoration: none; border: 1px solid var(--b-line); border-radius: 999px; padding: 10px 20px">{{t.navCta}}</a>
+</div>
+</nav>
+<div style="display: flex; flex-wrap: wrap; gap: 64px; align-items: center; justify-content: space-between">
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: {{accentText}}">{{t.heroEyebrow}}</div>
+<h1 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(38px, 5.2vw, 62px); line-height: 1.08; color: var(--b-ink)">{{t.heroTitle}}</h1>
+<p style="margin: 0; font-size: 18px; font-weight: 300; color: var(--b-muted); max-width: 520px">{{t.heroLead}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 4px">
+<a href="#contacto" style="background: {{accent}}; color: #14120E; text-decoration: none; font-weight: 500; font-size: 15px; padding: 14px 26px; border-radius: 999px">{{t.heroCta}}</a>
+<a href="https://grupocerqueira.bistrobit.fyi/Apulia/Prod/menu.html" target="_blank" rel="noopener noreferrer" style="color: var(--b-text); text-decoration: none; font-size: 15px; padding: 14px 26px; border-radius: 999px; border: 1px solid var(--b-line)">{{t.heroCta2}}</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px; padding-top: 20px; border-top: 1px solid var(--b-line3); font-size: 14px; color: var(--b-muted2)">
+<sc-for list="{{t.heroFacts}}" as="f" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="color: var(--b-ink2); font-weight: 500">{{f.a}}</span><span>{{f.b}}</span></div>
+</sc-for>
+</div>
+</div>
+
+<div style="position: relative; flex: 0 1 500px; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; min-width: 0">
+<div class="ph-float" style="position: absolute; top: 70px; right: 0; z-index: 3; background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 14px; padding: 10px 14px; box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; align-items: center; gap: 10px; max-width: 200px">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #14120E; display: flex; align-items: center; justify-content: center; font-size: 14px">★</span>
+<span style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12px; font-weight: 600; color: var(--b-ink)">{{t.coA}}</span><span style="font-size: 11px; color: var(--b-muted)">{{t.coAd}}</span></span>
+</div>
+<div class="ph-float ph-float2" style="position: absolute; bottom: 150px; right: 0; z-index: 3; background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 14px; padding: 10px 14px; box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; align-items: center; gap: 10px; max-width: 210px">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid {{accent}}; color: {{accentText}}; display: flex; align-items: center; justify-content: center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"></rect><circle cx="9" cy="9" r="1"></circle><circle cx="15" cy="15" r="1"></circle><circle cx="15" cy="9" r="1"></circle><circle cx="9" cy="15" r="1"></circle></svg></span>
+<span style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12px; font-weight: 600; color: var(--b-ink)">{{t.coB}}</span><span style="font-size: 11px; color: var(--b-muted)">{{t.coBd}}</span></span>
+</div>
+<figure style="flex: 0 0 172px; margin: 0 -14px 32px 0; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px">
+<img src="./assets/d3c42ae8fed6a98f1fa688d10569d986.jpg" alt="{{t.photoAlt}}" width="172" height="214" style="width: 172px; height: 214px; object-fit: cover; border-radius: 18px; border: 4px solid var(--b-bg); box-shadow: 0 24px 48px rgba(0,0,0,0.35); display: block">
+<figcaption style="font-size: 12px; letter-spacing: 0.08em; color: var(--b-muted); background: var(--b-bg); border: 1px solid var(--b-line); padding: 4px 12px; border-radius: 999px; white-space: nowrap">{{t.photoCap}}</figcaption>
+</figure>
+<div class="ph" style="--b-bg: #15130F; --b-surface: #1E1B16; --b-text: #EDE7DA; --b-ink: #F7F2E7; --b-ink2: #F4EEE1; --b-muted: #C9C1B1; --b-muted2: #B5AE9F; --b-line: #4A4234; --b-line2: #3A342A; width: 300px; max-width: 100%; height: 640px; box-sizing: border-box; transform: perspective(1600px) rotateY(-13deg) rotateX(4deg); transform-origin: 60% 50%; background: #0A0907; border: 1px solid var(--b-line2); border-radius: 44px; padding: 12px; box-shadow: 0 40px 80px rgba(0,0,0,0.45)">
+<div style="position: relative; height: 100%; background: #F5F0E8; border-radius: 33px; overflow: hidden; display: flex; flex-direction: column; color: #1A1208; font-family: Poppins, system-ui, sans-serif">
+<div style="position: relative; padding: 24px 12px 8px; display: flex; flex-direction: column; align-items: center; gap: 7px; border-bottom: 1px solid #E6DCC8">
+<div style="display: flex; align-items: center; gap: 8px">
+<div style="width: 30px; height: 30px; border-radius: 50%; background: #2B1D0E; border: 1.5px solid #C9A55C; display: flex; align-items: center; justify-content: center">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E8B04A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c2 3 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-7.5z"></path></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 1px">
+<div style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 10px; letter-spacing: 0.06em; color: #2B1D0E">{{t.phName}}</div>
+<div style="font-size: 5.5px; letter-spacing: 0.3em; color: #9A8B70">{{t.phMenu}}</div>
+</div>
+</div>
+<div style="display: flex; gap: 3px; align-items: center">
+<span style="{{phPT}}">PT</span>
+<span style="{{phEN}}">EN</span>
+<span style="font-size: 6.5px; border: 1px solid #D8CBB0; color: #7A6A50; padding: 2px 6px; border-radius: 3px">FR</span>
+<span style="font-size: 6.5px; border: 1px solid #D8CBB0; color: #7A6A50; padding: 2px 5px; border-radius: 3px; margin-left: 4px">☾</span>
+</div>
+</div>
+<div style="position: relative; display: flex; font-size: 7px; letter-spacing: 0.1em; color: #7A6A50; border-bottom: 1px solid #E6DCC8; overflow: hidden; white-space: nowrap">
+<span style="flex: 0 0 62px; text-align: center; padding: 8px 0 7px">{{t.phTab1}}</span>
+<span style="flex: 0 0 62px; text-align: center; padding: 8px 0 7px">{{t.phTab2}}</span>
+<span style="flex: 0 0 62px; text-align: center; padding: 8px 0 7px">{{t.phTab3}}</span>
+<span style="flex: 0 0 62px; text-align: center; padding: 8px 0 7px">{{t.phTab4}}</span>
+<span style="flex: 0 0 62px; text-align: center; padding: 8px 0 7px">{{t.phTab5}}</span>
+<span class="ph-anim ph-tabline" style="position: absolute; bottom: 0; left: 0; width: 62px; height: 2px; background: {{accent}}"></span>
+</div>
+<div style="position: relative; flex: 1; min-height: 0; overflow: hidden">
+<div class="ph-anim ph-track" style="display: flex; width: 300%; height: 100%">
+<sc-for list="{{t.phPages}}" as="pg" hint-placeholder-count="3">
+<div style="width: 33.3333%; height: 100%; overflow: hidden">
+<div class="ph-anim ph-scroll" style="display: flex; flex-direction: column; padding-bottom: 60px">
+<div style="height: 92px; background: radial-gradient(circle at 30% 30%, #6B3A1A 0%, #2A170B 55%, #140B05 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
+<div style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 19px; letter-spacing: 0.08em; color: #FFFFFF">{{pg.heroTitle}}</div>
+<div style="font-size: 5.5px; letter-spacing: 0.32em; color: #D4A73C">{{pg.heroSub}}</div>
+</div>
+<div style="text-align: center; font-size: 8px; letter-spacing: 0.4em; color: #C9B48A; padding: 6px 0 2px">• • •</div>
+<div style="font-family: Lora, Georgia, serif; font-style: italic; font-weight: 600; font-size: 10px; color: #8B6914; margin: 2px 12px 0; padding-bottom: 6px; border-bottom: 1px solid #E6DCC8">{{pg.secTitle}}</div>
+<div style="margin: 8px 10px 2px; background: linear-gradient(180deg, #EADFC9, #F3EBDD); border: 1px solid #D9C49A; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 4px">
+<span style="align-self: flex-start; font-size: 6px; letter-spacing: 0.16em; color: #8B6914; border: 1px solid #C9A55C; background: #FBF6EC; padding: 2px 7px; border-radius: 999px; font-weight: 600">★ {{t.phFeatPill}}</span>
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 6px">
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 12.5px; color: #2B1D0E">{{pg.feat.n}}</span>
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 11px; color: #8B6914; white-space: nowrap">{{pg.feat.p}}</span>
+</div>
+<div style="font-size: 7.5px; color: #7A6A50; line-height: 1.4">{{pg.feat.d}}</div>
+</div>
+<sc-for list="{{pg.items}}" as="it" hint-placeholder-count="5">
+<div style="display: flex; justify-content: space-between; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #E6DCC8">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-family: Lora, Georgia, serif; font-weight: 600; font-size: 11px; color: #1A1208">{{it.n}}</span>
+<span style="font-size: 7.5px; color: #7A6A50; line-height: 1.35">{{it.d}}</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1px; flex: none">
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 10.5px; color: #8B6914; white-space: nowrap">{{it.p}}</span>
+<sc-if value="{{it.hasHalf}}" hint-placeholder-val="{{ false }}"><span style="font-size: 6.5px; color: #9A8B70; white-space: nowrap">{{t.phHalf}} {{it.h}}</span></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+<div class="ph-anim ph-fab" style="position: absolute; left: 10px; bottom: 12px; background: linear-gradient(135deg, #8B6914, #B8860B); color: #FFFFFF; font-size: 7.5px; font-weight: 700; letter-spacing: 0.1em; padding: 8px 12px; border-radius: 999px; box-shadow: 0 6px 16px rgba(80,55,10,0.4)">★ {{t.phSurpriseUp}}</div>
+</div>
+<div class="ph-anim ph-backdrop" style="position: absolute; inset: 0; background: rgba(26,18,8,0.5); opacity: 0; pointer-events: none"></div>
+<div class="ph-anim ph-sheet" style="position: absolute; left: 0; right: 0; bottom: 0; height: 84%; background: #FFFDF8; border-radius: 18px 18px 0 0; overflow: hidden; display: flex; flex-direction: column; transform: translateY(105%)">
+<div style="background: linear-gradient(180deg, #3A2410, #22150A); padding: 14px 14px 12px; display: flex; flex-direction: column; gap: 5px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; font-size: 6px; letter-spacing: 0.2em; color: #E8D6A8; border: 1px solid #6B5330; padding: 3px 8px; border-radius: 999px; font-weight: 600"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#E8D6A8" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"></rect><circle cx="9" cy="9" r="1"></circle><circle cx="15" cy="15" r="1"></circle><circle cx="15" cy="9" r="1"></circle><circle cx="9" cy="15" r="1"></circle></svg>{{t.phSheetPill}}</span>
+<div style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 14px; color: #F3E3B8">{{t.phSheetTitle}}</div>
+<div style="font-family: Lora, Georgia, serif; font-style: italic; font-size: 8px; color: #BFA77A">{{t.phSheetSub}}</div>
+</div>
+<div style="position: relative; flex: 1; min-height: 0; overflow: hidden">
+<div class="ph-anim ph-step1" style="position: absolute; inset: 0; padding: 14px 10px; display: flex; flex-direction: column; gap: 10px; align-items: center">
+<div style="font-family: Lora, Georgia, serif; font-weight: 600; font-size: 11.5px; color: #2B1D0E">{{t.phAsk}}</div>
+<div style="position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%">
+<div class="ph-anim ph-pick" style="background: #F7F1E6; border: 1px solid #E6DCC8; border-radius: 10px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B5561E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 4.5c3 1.5 4.5 5 3 8.5s-6 6.5-10 6.5c-3 0-5-2-4.5-5s3-3.5 4.5-6 4-5.5 7-4z"></path><circle cx="14" cy="10" r="2"></circle></svg>
+<span style="font-size: 7.5px; font-weight: 700; letter-spacing: 0.08em; color: #2B1D0E">{{t.phC1}}</span></div>
+<div style="background: #F7F1E6; border: 1px solid #E6DCC8; border-radius: 10px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3D7EA6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c3-4 7-5 11-5 3 0 5 2 6 5-1 3-3 5-6 5-4 0-8-1-11-5z"></path><path d="M3 12l-1-3M3 12l-1 3"></path><circle cx="16" cy="11" r="0.8"></circle></svg>
+<span style="font-size: 7.5px; font-weight: 700; letter-spacing: 0.08em; color: #2B1D0E">{{t.phC2}}</span></div>
+<div style="background: #F7F1E6; border: 1px solid #E6DCC8; border-radius: 10px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20c-2-3-2-7 1-10s7-4 9-2-1 4-3 5-4 3-4 5"></path><path d="M17 8l3-4M15 7l1-4"></path></svg>
+<span style="font-size: 7.5px; font-weight: 700; letter-spacing: 0.08em; color: #2B1D0E">{{t.phC3}}</span></div>
+<span class="ph-anim ph-tap" style="position: absolute; left: 14%; top: 34%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: rgba(139,105,20,0.35); border: 1.5px solid rgba(139,105,20,0.8); opacity: 0"></span>
+</div>
+<div style="font-size: 7.5px; color: #5E4A2A; border: 1px dashed #C9B48A; padding: 6px 12px; border-radius: 999px">{{t.phAny}}</div>
+</div>
+<div class="ph-anim ph-step2" style="position: absolute; inset: 0; overflow: hidden; opacity: 0">
+<div class="ph-anim ph-res" style="padding: 10px 10px 20px; display: flex; flex-direction: column; gap: 7px">
+<sc-for list="{{t.phMeal}}" as="c" hint-placeholder-count="4">
+<div style="border: 1px solid #EEE4D2; border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; background: #FFFFFF">
+<div style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 6px; letter-spacing: 0.18em; color: #C9B48A; font-weight: 600">{{c.c}}</span>
+<sc-if value="{{c.hasSub}}" hint-placeholder-val="{{ false }}"><span style="font-size: 6px; letter-spacing: 0.14em; color: #8B6914; font-weight: 700">{{c.s}}</span></sc-if>
+</div>
+<sc-for list="{{c.items}}" as="m" hint-placeholder-count="1">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 11px; color: #1A1208">{{m.n}}</span>
+<span style="font-size: 7px; color: #7A6A50; line-height: 1.35">{{m.d}}</span>
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 9px; color: #8B6914">{{m.p}} <span style="font-family: Poppins, sans-serif; font-weight: 500; font-size: 5.5px; letter-spacing: 0.12em; color: #9A8B70">{{m.u}}</span></span>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="display: flex; gap: 6px; padding: 8px 10px 14px; border-top: 1px solid #EEE4D2; background: #FFFDF8">
+<span style="flex: 1; text-align: center; background: linear-gradient(135deg, #8B6914, #B8860B); color: #FFFFFF; font-size: 7px; font-weight: 700; letter-spacing: 0.1em; padding: 8px 0; border-radius: 8px">{{t.phAgain}}</span>
+<span style="width: 26px; display: flex; align-items: center; justify-content: center; border: 1px solid #E6DCC8; border-radius: 8px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8B6914" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"></path></svg></span>
+<span style="padding: 8px 10px; font-size: 7px; color: #5E4A2A; border: 1px solid #E6DCC8; border-radius: 8px; background: #F5F0E8">{{t.phClose}}</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<nav aria-label="{{t.navLabel}}" style="position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,0.06)">
+<div style="max-width: 1120px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; scrollbar-width: none">
+<sc-for list="{{t.navItems}}" as="ni" hint-placeholder-count="7">
+<a href="{{ni.h}}" style="flex: none; display: inline-flex; align-items: center; min-height: 48px; padding: 0 14px; font-size: 13px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none">{{ni.l}}</a>
+</sc-for>
+</div>
+</nav>
+<section id="problema" style="scroll-margin-top: 64px; padding: 104px 24px 96px; background: var(--surface); border-bottom: 1px solid var(--line)">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 720px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.pbEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.8vw, 44px); line-height: 1.15; color: var(--ink)">{{t.pbTitle}}</h2>
+<p style="margin: 0; font-size: 17px; color: var(--muted)">{{t.pbLead}}</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 20px">
+<sc-for list="{{t.pains}}" as="pn" hint-placeholder-count="4">
+<div style="background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-family: Lora, Georgia, serif; font-size: 30px; line-height: 1; color: var(--numeral)">{{pn.n}}</div>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 20px; color: var(--ink)">{{pn.t}}</h3>
+<p style="margin: 0; font-size: 15px; color: var(--muted)">{{pn.p}}</p>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding-top: 28px; border-top: 1px solid var(--line)">
+<p style="margin: 0; font-family: Lora, Georgia, serif; font-style: italic; font-size: clamp(22px, 2.6vw, 28px); color: var(--ink); max-width: 760px">{{t.pbBridge}}</p>
+<a href="#solucao" style="flex: none; color: var(--ink); font-size: 15px; text-decoration: none; border: 1px solid var(--ink); border-radius: 999px; padding: 12px 24px; min-height: 44px; box-sizing: border-box">{{t.pbCta}}</a>
+</div>
+</div>
+</section>
+
+
+<section id="solucao" style="padding: 112px 24px 104px; scroll-margin-top: 64px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.rEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--ink)">{{t.rTitle}}</h2>
+<p style="margin: 0; color: var(--muted); font-size: 17px">{{t.rLead}}</p>
+</div>
+<div style="background: var(--b-bg); color: var(--b-text); border-radius: 20px; padding: 40px 36px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between">
+<div style="flex: 1 1 420px; display: flex; flex-direction: column; gap: 10px; min-width: 0">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: {{accentText}}">{{t.autoEyebrow}}</div>
+<div style="font-family: Lora, Georgia, serif; font-size: clamp(24px, 2.6vw, 32px); line-height: 1.2; color: var(--b-ink)">{{t.autoTitle}}</div>
+<p style="margin: 0; color: var(--b-muted); font-size: 16px">{{t.autoText}}</p>
+</div>
+<div style="flex: 0 1 340px; display: flex; flex-direction: column; gap: 12px; font-size: 15px">
+<sc-for list="{{t.autoPoints}}" as="p" hint-placeholder-count="3">
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{accentText}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M5 12l5 5 9-10"></path></svg><span>{{p}}</span></div>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px">
+<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6"></path><path d="M20 4v5h-5"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 21px; color: var(--ink)">{{t.c1t}}</h3>
+<p style="margin: 0; color: var(--muted); font-size: 15px">{{t.c1p}}</p>
+</div>
+<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 21px; color: var(--ink)">{{t.c2t}}</h3>
+<p style="margin: 0; color: var(--muted); font-size: 15px">{{t.c2p}}</p>
+</div>
+<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6l12.8 12.8"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 21px; color: var(--ink)">{{t.c3t}}</h3>
+<p style="margin: 0; color: var(--muted); font-size: 15px">{{t.c3p}}</p>
+</div>
+<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 21px; color: var(--ink)">{{t.c4t}}</h3>
+<p style="margin: 0; color: var(--muted); font-size: 15px">{{t.c4p}}</p>
+</div>
+<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10"></path><path d="M10 20V4"></path><path d="M16 20v-7"></path><path d="M22 20H2"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 21px; color: var(--ink)">{{t.c5t}}</h3>
+<p style="margin: 0; color: var(--muted); font-size: 15px">{{t.c5p}}</p>
+</div>
+<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"></path><path d="M9 12l2 2 4-4"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 21px; color: var(--ink)">{{t.c6t}}</h3>
+<p style="margin: 0; color: var(--muted); font-size: 15px">{{t.c6p}}</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="vender" style="scroll-margin-top: 64px; background: var(--b-bg); color: var(--b-text); padding: 104px 24px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 720px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: {{accentText}}">{{t.sellEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--b-ink)">{{t.sellTitle}}</h2>
+<p style="margin: 0; color: var(--b-muted); font-size: 17px">{{t.sellLead}}</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px">
+<div style="background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 20px; padding: 36px 32px; display: flex; flex-direction: column; gap: 22px">
+<div style="background: #F5F0E8; border: 1px solid #E6DCC8; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; font-family: Poppins, system-ui, sans-serif">
+<div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #7A6A50; font-weight: 600">{{t.hlClientLabel}}</div>
+<div style="background: linear-gradient(180deg, #EADFC9, #F3EBDD); border: 1px solid #D9C49A; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<span style="align-self: flex-start; font-size: 9px; letter-spacing: 0.16em; color: #8B6914; border: 1px solid #C9A55C; background: #FBF6EC; padding: 3px 10px; border-radius: 999px; font-weight: 600">★ {{t.phFeatPill}}</span>
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px">
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 18px; color: #2B1D0E">{{t.hlCardDish}}</span>
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 16px; color: #8B6914">{{t.hlCardPrice}}</span>
+</div>
+<div style="font-size: 12px; color: #7A6A50">{{t.hlCardDesc}}</div>
+</div>
+<div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #7A6A50; font-weight: 600; padding-top: 4px; display: flex; align-items: center; gap: 6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7A6A50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>{{t.hlSheetLabel}}</div>
+<div style="border: 1px solid #D8CBB0; border-radius: 8px; overflow: hidden; background: #FFFFFF; font-size: 12px; color: #2A2620">
+<div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 1.2fr); background: #EFE7D6; font-size: 10px; letter-spacing: 0.06em; color: #5E584E; font-weight: 600">
+<span style="padding: 7px 10px">{{t.hlColDish}}</span><span style="padding: 7px 10px; border-left: 1px solid #D8CBB0">{{t.hlColFeat}}</span><span style="padding: 7px 10px; border-left: 1px solid #D8CBB0">{{t.hlColWhy}}</span>
+</div>
+<sc-for list="{{t.hlRows}}" as="r" hint-placeholder-count="2">
+<div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 1.2fr); border-top: 1px solid #E6DCC8">
+<span style="padding: 7px 10px">{{r.a}}</span><span style="padding: 7px 10px; border-left: 1px solid #E6DCC8; font-weight: 600; color: #2F5A2B">{{r.b}}</span><span style="padding: 7px 10px; border-left: 1px solid #E6DCC8; font-style: italic; color: #8A2E1E">{{r.c}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 26px; color: var(--b-ink)">{{t.hlTitle}}</h3>
+<p style="margin: 0; color: var(--b-muted); font-size: 16px">{{t.hlText}}</p>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 15px">
+<sc-for list="{{t.hlPoints}}" as="p" hint-placeholder-count="4">
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{accentText}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 4px"><path d="M5 12l5 5 9-10"></path></svg><span>{{p}}</span></div>
+</sc-for>
+</div>
+</div>
+<div style="background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 20px; padding: 36px 32px; display: flex; flex-direction: column; gap: 22px">
+<div style="background: #FFFDF8; border: 1px solid #E6DCC8; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; font-family: Poppins, system-ui, sans-serif">
+<div style="background: linear-gradient(180deg, #3A2410, #22150A); padding: 14px 18px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 9px; letter-spacing: 0.2em; color: #E8D6A8; font-weight: 600">{{t.phSheetPill}}</span>
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 18px; color: #F3E3B8">{{t.phSheetTitle}}</span>
+</div>
+<div style="padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{srChoicesStyled}}" as="ch" hint-placeholder-count="4">
+<span style="{{ch.style}}">{{ch.l}}</span>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{t.srMeal}}" as="m" hint-placeholder-count="4">
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid #EEE4D2">
+<span style="font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #9A8B70; font-weight: 600; flex: none">{{m.c}}</span>
+<span style="font-family: Lora, Georgia, serif; font-weight: 600; font-size: 13px; color: #1A1208; text-align: right">{{m.n}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 26px; color: var(--b-ink)">{{t.srTitle}}</h3>
+<p style="margin: 0; color: var(--b-muted); font-size: 16px">{{t.srText}}</p>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 15px">
+<sc-for list="{{t.srPoints}}" as="p" hint-placeholder-count="3">
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{accentText}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 4px"><path d="M5 12l5 5 9-10"></path></svg><span>{{p}}</span></div>
+</sc-for>
+</div>
+<div style="margin-top: auto; padding-top: 18px; border-top: 1px solid var(--b-line2); display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap">
+<span style="font-family: Lora, Georgia, serif; font-size: 34px; color: var(--b-ink)">669</span>
+<span style="font-size: 14px; color: var(--b-muted)">{{t.srStat}}</span>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; max-width: 720px; padding-top: 16px">
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 26px; color: var(--b-ink)">{{t.stTitle}}</h3>
+<p style="margin: 0; color: var(--b-muted); font-size: 16px">{{t.stLead}}</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px">
+<sc-for list="{{t.stateCards}}" as="sc" hint-placeholder-count="3">
+<div style="background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+<div style="background: #FFFDF8; border: 1px solid #E6DCC8; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; font-family: Poppins, system-ui, sans-serif">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap">
+<span style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: 14px; color: #1A1208">{{sc.dish}}</span>
+<span style="{{sc.badgeStyle}}">{{sc.badge}}</span>
+</div>
+<span style="font-size: 11px; color: #7A6A50">{{sc.desc}}</span>
+</div>
+<h4 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 20px; color: var(--b-ink)">{{sc.t}}</h4>
+<p style="margin: 0; color: var(--b-muted); font-size: 15px">{{sc.p}}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="caso" style="scroll-margin-top: 64px; background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 104px 24px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; justify-content: space-between">
+<div style="flex: 1 1 520px; display: flex; flex-direction: column; gap: 16px; min-width: 0">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.caseEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--ink)">{{t.caseTitle}}</h2>
+<p style="margin: 0; color: var(--muted); font-size: 17px">{{t.caseLead}}</p>
+</div>
+<div style="flex: 0 1 300px; font-size: 13px; color: var(--muted2); border-left: 1px solid var(--line); padding-left: 20px">{{t.caseSource}}</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden">
+<sc-for list="{{t.stats}}" as="s" hint-placeholder-count="8">
+<div style="background: var(--surface); padding: 32px 28px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(34px, 3.4vw, 44px); line-height: 1; color: var(--ink)">{{s.n}}</div>
+<div style="font-weight: 500; color: var(--ink); font-size: 15px">{{s.l}}</div>
+<div style="font-size: 14px; color: var(--muted)">{{s.d}}</div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<div style="font-family: Lora, Georgia, serif; font-style: italic; font-size: 20px; color: var(--gold)">{{t.caseRead}}</div>
+</div>
+<div style="flex: 2 1 520px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; min-width: 0">
+<sc-for list="{{t.caseInsights}}" as="i" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 6px; padding-top: 16px; border-top: 1px solid var(--ink)">
+<div style="font-weight: 500; color: var(--ink)">{{i.t}}</div>
+<div style="font-size: 14px; color: var(--muted)">{{i.p}}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section id="funcionalidades" style="scroll-margin-top: 64px; padding: 104px 24px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.fEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--ink)">{{t.fTitle}}</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px">
+<div style="display: flex; flex-direction: column">
+<div style="font-family: Lora, Georgia, serif; font-style: italic; font-size: 20px; color: var(--gold); padding-bottom: 16px; border-bottom: 1px solid var(--ink)">{{t.fCol1}}</div>
+<sc-for list="{{t.f1}}" as="x" hint-placeholder-count="6">
+<div style="display: flex; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line)"><span style="font-size: 13px; color: var(--faint); min-width: 24px">{{x.n}}</span><div><div style="font-weight: 500; color: var(--ink)">{{x.t}}</div><div style="font-size: 14px; color: var(--muted)">{{x.p}}</div></div></div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column">
+<div style="font-family: Lora, Georgia, serif; font-style: italic; font-size: 20px; color: var(--gold); padding-bottom: 16px; border-bottom: 1px solid var(--ink)">{{t.fCol2}}</div>
+<sc-for list="{{t.f2}}" as="x" hint-placeholder-count="6">
+<div style="display: flex; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line)"><span style="font-size: 13px; color: var(--faint); min-width: 24px">{{x.n}}</span><div><div style="font-weight: 500; color: var(--ink)">{{x.t}}</div><div style="font-size: 14px; color: var(--muted)">{{x.p}}</div></div></div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section id="experiencia" style="scroll-margin-top: 64px; background: var(--b-bg); color: var(--b-text); padding: 104px 24px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: {{accentText}}">{{t.dEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--b-ink)">{{t.dTitle}}</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid var(--b-line2)">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accentText}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18h2"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 20px; color: var(--b-ink)">{{t.d1t}}</h3>
+<p style="margin: 0; font-size: 15px; color: var(--b-muted2)">{{t.d1p}}</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid var(--b-line2)">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accentText}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6"></path><path d="M12 7.5v.01"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 20px; color: var(--b-ink)">{{t.d2t}}</h3>
+<p style="margin: 0; font-size: 15px; color: var(--b-muted2)">{{t.d2p}}</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid var(--b-line2)">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accentText}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><path d="M14 14h3v3h-3z"></path><path d="M17 20h4v-3"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 20px; color: var(--b-ink)">{{t.d3t}}</h3>
+<p style="margin: 0; font-size: 15px; color: var(--b-muted2)">{{t.d3p}}</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid var(--b-line2)">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accentText}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M8.2 10.8l7.6-3.6"></path><path d="M8.2 13.2l7.6 3.6"></path></svg>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 20px; color: var(--b-ink)">{{t.d4t}}</h3>
+<p style="margin: 0; font-size: 15px; color: var(--b-muted2)">{{t.d4p}}</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="qualidade" style="scroll-margin-top: 64px; padding: 112px 24px 104px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px">
+<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-end; justify-content: space-between">
+<div style="flex: 1 1 460px; display: flex; flex-direction: column; gap: 16px; min-width: 0">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.qEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--ink)">{{t.qTitle}}</h2>
+</div>
+<p style="flex: 1 1 360px; margin: 0; color: var(--muted); font-size: 17px">{{t.qLead}}</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden">
+<sc-for list="{{t.pillars}}" as="q" hint-placeholder-count="4">
+<div style="background: var(--surface); padding: 32px 28px; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 20px; color: var(--ink)">{{q.t}}</h3>
+<p style="margin: 0; font-size: 15px; color: var(--muted)">{{q.p}}</p>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 28px">
+<div style="font-family: Lora, Georgia, serif; font-style: italic; font-size: 20px; color: var(--gold)">{{t.stepsTitle}}</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px">
+<sc-for list="{{t.steps}}" as="s" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-family: Lora, Georgia, serif; font-size: 44px; line-height: 1; color: var(--numeral)">{{s.n}}</div>
+<div style="font-weight: 500; color: var(--ink)">{{s.t}}</div>
+<div style="font-size: 15px; color: var(--muted)">{{s.p}}</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 16px; padding: 28px 32px">
+<div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 10px; min-width: 0">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.needEyebrow}}</div>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 24px; color: var(--ink)">{{t.needTitle}}</h3>
+<p style="margin: 0; font-size: 15px; color: var(--muted)">{{t.needLead}}</p>
+</div>
+<div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 12px; font-size: 15px; min-width: 0">
+<sc-for list="{{t.needList}}" as="nd" hint-placeholder-count="4">
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 4px"><path d="M5 12l5 5 9-10"></path></svg><span><b style="font-weight: 600; color: var(--ink)">{{nd.t}}</b> {{nd.p}}</span></div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section id="pacotes" style="scroll-margin-top: 64px; background: var(--surface); border-top: 1px solid var(--line); padding: 104px 24px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.pEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--ink)">{{t.pTitle}}</h2>
+<p style="margin: 0; color: var(--muted); font-size: 17px">{{t.pLead}}</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
+<div role="group" aria-label="{{t.billLabel}}" style="display: inline-flex; border: 1px solid var(--line); background: var(--surface2); border-radius: 999px; padding: 4px">
+<button type="button" onClick="{{setMonthly}}" aria-pressed="{{isMonthlyStr}}" style="{{monthlyBtn}}">{{t.billMonthly}}</button>
+<button type="button" onClick="{{setAnnual}}" aria-pressed="{{isAnnualStr}}" style="{{annualBtn}}">{{t.billAnnual}}</button>
+</div>
+<span style="font-size: 13px; font-weight: 600; color: #2F5A2B; background: #E9F0E6; padding: 5px 12px; border-radius: 999px">{{t.billSave}}</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; align-items: stretch">
+<div style="border: 1px solid var(--line); border-radius: 20px; padding: 40px 36px; display: flex; flex-direction: column; gap: 24px; background: var(--surface2)">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: Lora, Georgia, serif; font-size: 26px; color: var(--ink)">{{t.p1Name}}</div>
+<div style="font-size: 15px; color: var(--muted)">{{t.p1Tag}}</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 24px; border-bottom: 1px solid var(--line)">
+<div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap">
+<span style="font-family: Lora, Georgia, serif; font-size: 44px; line-height: 1; color: var(--ink)">{{p1Recurring}}</span>
+<span style="font-size: 15px; color: var(--muted)">{{billUnit}}</span>
+</div>
+<div style="font-size: 14px; color: var(--muted)">{{t.setupLine}}</div>
+<sc-if value="{{isAnnual}}" hint-placeholder-val="{{ false }}"><div style="font-size: 13px; color: #2F5A2B; font-weight: 600">{{t.p1AnnualNote}}</div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 15px">
+<sc-for list="{{t.p1List}}" as="li" hint-placeholder-count="5">
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 4px"><path d="M5 12l5 5 9-10"></path></svg><span>{{li}}</span></div>
+</sc-for>
+</div>
+<a href="#contacto" style="margin-top: auto; text-align: center; text-decoration: none; color: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 14px 24px; font-weight: 500; font-size: 15px">{{t.p1Cta}}</a>
+</div>
+<div style="border: 1px solid var(--b-bg); border-radius: 20px; padding: 40px 36px; display: flex; flex-direction: column; gap: 24px; background: var(--b-bg); color: var(--b-text); position: relative">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: Lora, Georgia, serif; font-size: 26px; color: var(--b-ink)">{{t.p2Name}}</div>
+<div style="font-size: 15px; color: var(--b-muted)">{{t.p2Tag}}</div>
+</div>
+<span style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; background: {{accent}}; color: #14120E; padding: 5px 12px; border-radius: 999px; font-weight: 600">{{t.p2Badge}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 24px; border-bottom: 1px solid var(--b-line2)">
+<div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap">
+<span style="font-family: Lora, Georgia, serif; font-size: 44px; line-height: 1; color: var(--b-ink)">{{p2Recurring}}</span>
+<span style="font-size: 15px; color: var(--b-muted)">{{billUnit}}</span>
+</div>
+<div style="font-size: 14px; color: var(--b-muted)">{{t.setupLine}}</div>
+<sc-if value="{{isAnnual}}" hint-placeholder-val="{{ false }}"><div style="font-size: 13px; color: {{accentText}}; font-weight: 600">{{t.p2AnnualNote}}</div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 15px">
+<sc-for list="{{t.p2List}}" as="li" hint-placeholder-count="5">
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{accentText}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 4px"><path d="M5 12l5 5 9-10"></path></svg><span>{{li}}</span></div>
+</sc-for>
+</div>
+<a href="#contacto" style="margin-top: auto; text-align: center; text-decoration: none; color: #14120E; background: {{accent}}; border-radius: 999px; padding: 14px 24px; font-weight: 500; font-size: 15px">{{t.p2Cta}}</a>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; align-items: stretch">
+<div style="border: 1px solid var(--line); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 18px; background: var(--surface2)">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.exEyebrow}}</div>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 24px; color: var(--ink)">{{t.exTitle}}</h3>
+<p style="margin: 0; font-size: 14px; color: var(--muted)">{{t.exLead}}</p>
+</div>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{t.extras}}" as="x" hint-placeholder-count="4">
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line)">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-weight: 500; color: var(--ink); font-size: 15px">{{x.t}}</span><span style="font-size: 13px; color: var(--muted)">{{x.p}}</span></div>
+<span style="flex: none; font-size: 12px; color: var(--gold); font-weight: 600; white-space: nowrap">{{x.tag}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="border: 1px solid var(--line); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 18px; background: var(--surface2)">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.cxEyebrow}}</div>
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 24px; color: var(--ink)">{{t.cxTitle}}</h3>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<sc-for list="{{t.cancel}}" as="c" hint-placeholder-count="4">
+<div style="display: flex; gap: 14px; align-items: flex-start">
+<span style="flex: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">{{c.n}}</span>
+<div><div style="font-weight: 500; color: var(--ink); font-size: 15px">{{c.t}}</div><div style="font-size: 14px; color: var(--muted)">{{c.p}}</div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+<sc-for list="{{t.guarantees}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; gap: 14px; align-items: flex-start; padding: 22px 24px; border: 1px solid var(--line); border-radius: 14px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"></path><path d="M9 12l2 2 4-4"></path></svg>
+<div><div style="font-weight: 500; color: var(--ink)">{{g.t}}</div><div style="font-size: 14px; color: var(--muted)">{{g.p}}</div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="contacto" style="scroll-margin-top: 64px; background: var(--b-bg); color: var(--b-text); padding: 104px 24px 56px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px">
+<div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; justify-content: space-between">
+<div style="flex: 1 1 400px; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(32px, 4.2vw, 52px); line-height: 1.1; color: var(--b-ink)">{{t.ctaTitle}}</h2>
+<p style="margin: 0; font-size: 17px; font-weight: 300; color: var(--b-muted)">{{t.ctaLead}}</p>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 24px; border: 1px solid var(--b-line2); border-radius: 16px; margin-top: 8px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: {{accentText}}">{{t.waEyebrow}}</div>
+<p style="margin: 0; font-size: 15px; color: var(--b-muted)">{{t.waText}}</p>
+<a href="{{waHref}}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; align-self: flex-start; background: #25D366; color: #0B2A16; text-decoration: none; font-weight: 600; font-size: 15px; padding: 14px 24px; border-radius: 999px; min-height: 44px; box-sizing: border-box">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"></path><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2-1.6 1z"></path></svg>
+<span>{{t.waBtn}}</span>
+</a>
+</div>
+</div>
+<div id="demoForm" role="group" aria-label="{{t.formTitle}}" style="position: relative; flex: 1 1 380px; min-width: 0; background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 16px">
+<div style="font-family: Lora, Georgia, serif; font-size: 22px; color: var(--b-ink)">{{t.formTitle}}</div>
+<label for="dfName" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--b-muted)">{{t.fName}}<input id="dfName" type="text" autocomplete="name" style="font: 400 15px Poppins, sans-serif; color: var(--b-ink2); background: var(--b-bg); border: 1px solid var(--b-line); border-radius: 10px; padding: 12px 14px; min-height: 44px; box-sizing: border-box"></label>
+<label for="dfRest" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--b-muted)">{{t.fRest}}<input id="dfRest" type="text" autocomplete="organization" style="font: 400 15px Poppins, sans-serif; color: var(--b-ink2); background: var(--b-bg); border: 1px solid var(--b-line); border-radius: 10px; padding: 12px 14px; min-height: 44px; box-sizing: border-box"></label>
+<label for="dfEmail" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--b-muted)">{{t.fEmail}}<input id="dfEmail" type="email" autocomplete="email" style="font: 400 15px Poppins, sans-serif; color: var(--b-ink2); background: var(--b-bg); border: 1px solid var(--b-line); border-radius: 10px; padding: 12px 14px; min-height: 44px; box-sizing: border-box"></label>
+<label for="dfPhone" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--b-muted)">{{t.fPhone}}<input id="dfPhone" type="tel" autocomplete="tel" style="font: 400 15px Poppins, sans-serif; color: var(--b-ink2); background: var(--b-bg); border: 1px solid var(--b-line); border-radius: 10px; padding: 12px 14px; min-height: 44px; box-sizing: border-box"></label>
+<label for="dfPkg" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--b-muted)">{{t.fPkg}}<select id="dfPkg" style="font: 400 15px Poppins, sans-serif; color: var(--b-ink2); background: var(--b-bg); border: 1px solid var(--b-line); border-radius: 10px; padding: 12px 14px; min-height: 44px; box-sizing: border-box"><option value="indeciso">{{t.fPkg0}}</option><option value="essencial">{{t.p1Name}}</option><option value="signature">{{t.p2Name}}</option></select></label>
+<label for="dfMsg" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--b-muted)">{{t.fMsg}}<textarea id="dfMsg" rows="3" style="font: 400 15px Poppins, sans-serif; color: var(--b-ink2); background: var(--b-bg); border: 1px solid var(--b-line); border-radius: 10px; padding: 12px 14px; resize: vertical"></textarea></label>
+<input id="dfGotcha" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
+<button type="button" onClick="{{submitForm}}" disabled="{{sending}}" style="background: {{accent}}; color: #14120E; border: 0; font: 500 15px Poppins, sans-serif; padding: 14px 26px; border-radius: 999px; min-height: 48px; cursor: pointer">{{submitLabel}}</button>
+<sc-if value="{{invalid}}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="font-size: 14px; color: var(--b-text); background: var(--b-bg); border: 1px solid #C2410C; border-radius: 12px; padding: 12px 14px">{{t.invalidMsg}}</div>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="font-size: 14px; color: var(--b-text); background: var(--b-bg); border: 1px solid {{accent}}; border-radius: 12px; padding: 12px 14px">{{t.sentMsg}}</div>
+</sc-if>
+<sc-if value="{{fallback}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="font-size: 14px; color: var(--b-text); background: var(--b-bg); border: 1px solid var(--b-line); border-radius: 12px; padding: 12px 14px">{{t.fbMsg}} <a href="{{waFormHref}}" target="_blank" rel="noopener" style="color: {{accentText}}">{{t.waBtn}}</a></div>
+</sc-if>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 28px; border-top: 1px solid var(--b-line3); font-size: 13px; color: var(--b-faint)">
+<div style="display: flex; align-items: center; gap: 10px">
+<a href="https://bistrobit.fyi/" target="_blank" rel="noopener" aria-label="Bistrobit (abre bistrobit.fyi)" style="display: block; line-height: 0"><img src="{{logoSrc}}" alt="Bistrobit" width="64" height="66" style="width: 64px; height: 66px; display: block; object-fit: contain"></a>
+</div>
+<div>{{t.footer}}</div>
+</div>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C9A55C","options":["#C9A55C","#C8924A","#B8B0A0","#9FB59A"]},"startLang":{"editor":"enum","options":["pt","en"],"default":"pt"},"startTheme":{"editor":"enum","options":["light","dark"],"default":"light"},"whatsapp":{"editor":"text","default":"351915582194","section":"Contacto"},"trackingRef":{"editor":"text","default":"PITCH-GERAL","section":"Contacto"},"$preview":{"width":1280,"height":8400}}'>
+const PT = {
+  langLabel: 'Idioma', navCta: 'Marcar demonstração',
+  navLabel: 'Secções da página',
+  navItems: [{l:'O problema',h:'#problema'},{l:'A solução',h:'#solucao'},{l:'Vender mais',h:'#vender'},{l:'Caso real',h:'#caso'},{l:'Funcionalidades',h:'#funcionalidades'},{l:'Pacotes',h:'#pacotes'},{l:'Contacto',h:'#contacto'}],
+  pbEyebrow: 'O que se passa hoje à mesa',
+  pbTitle: 'O cliente senta-se. E espera.',
+  pbLead: 'Na maior parte dos restaurantes, a refeição começa com uma pausa: o cliente fica a aguardar que alguém tenha mãos livres para lhe trazer a ementa. Os primeiros minutos, os que definem a impressão da casa, são passados à espera.',
+  pains: [
+    {n:'01', t:'À espera da carta', p:'Em hora de ponta, a equipa não chega a todas as mesas. O cliente olha para a sala, chama, volta a chamar. A fome cresce e a paciência diminui.'},
+    {n:'02', t:'Cartas que já não dizem a verdade', p:'Preços riscados, folhas gastas, pratos que acabaram mas continuam impressos. Reimprimir custa dinheiro e tempo, por isso adia-se.'},
+    {n:'03', t:'O turista que não percebe', p:'Sem tradução, quem vem de fora escolhe o que reconhece e não o que a casa tem de melhor. E o empregado passa a intérprete.'},
+    {n:'04', t:'Uma equipa sempre a correr', p:'Levar cartas, explicar pratos, avisar que acabou o polvo. Minutos que podiam estar a servir mesas e a fazer vendas.'}
+  ],
+  pbBridge: 'E se fosse a carta a esperar pelo cliente, e não o contrário?',
+  pbCta: 'Ver como',
+  heroEyebrow: 'Menu digital interativo · feito à medida',
+  heroTitle: 'Nenhum cliente devia esperar pela carta.',
+  heroLead: 'Com a Bistrobit, a carta já está na mesa quando o cliente se senta: na língua dele, com a identidade da sua casa e sempre atualizada. Basta apontar o telemóvel.',
+  heroCta: 'Quero ver a minha carta assim', heroCta2: 'Ver um menu em produção',
+  heroFacts: [{a:'Sem app',b:'Abre no navegador'},{a:'Sem registo',b:'Aponta e lê'},{a:'PT · EN · FR',b:'Três línguas'}],
+  phName: 'O SEU RESTAURANTE', phMenu: 'EMENTA DIGITAL', phBack: 'VOLTAR',
+  phTab1: 'ENTRADAS', phTab2: 'SOPAS', phTab3: 'CARNES', phTab4: 'PEIXES', phTab5: 'MARISCOS',
+  coA: 'Destaque da casa', coAd: 'Escolhido pela casa', coB: 'Surpreende-me', coBd: 'Refeição completa sugerida',
+  phFeatPill: 'DESTAQUE DA CASA', phDose: 'DOSE', phHalf: 'MEIA', phSurprise: 'Surpreende-me', phSurpriseUp: 'SURPREENDE-ME', phUpdated: 'MENU ACTUALIZADO',
+  phPages: [
+    {heroTitle:'ENTRADAS', heroSub:'PARA PARTILHAR', secTitle:'Entradas | Starters | Entrées',
+     feat:{n:'Alheira de Mirandela', d:'Grelhada, com ovo estrelado e grelos salteados', p:'9.50€'},
+     items:[
+      {n:'Peixinhos da horta', d:'Feijão-verde em polme leve e estaladiço', p:'5.50€', h:''},
+      {n:'Moelas estufadas', d:'Em tomate e vinho tinto, com pão de mistura', p:'6.50€', h:'4.00€'},
+      {n:'Salada de polvo', d:'Com cebola roxa, pimentos e coentros', p:'11.00€', h:''},
+      {n:'Cogumelos à Bulhão Pato', d:'Salteados com alho, coentros e limão', p:'7.50€', h:''},
+      {n:'Pão com chouriço', d:'Acabado de sair do forno a lenha', p:'4.50€', h:''}]},
+    {heroTitle:'CARNES', heroSub:'GRELHADOS NA BRASA', secTitle:'Carnes | Meats | Viandes',
+     feat:{n:'Posta mirandesa', d:'Vitela DOP grelhada na brasa, com batata a murro', p:'24.50€'},
+     items:[
+      {n:'Bochechas de porco preto', d:'Estufadas em vinho tinto, com puré de castanha', p:'16.00€', h:''},
+      {n:'Cabrito assado', d:'No forno a lenha, com arroz de forno', p:'19.50€', h:'11.00€'},
+      {n:'Arroz de pato', d:'À moda antiga, com chouriço e raspa de laranja', p:'14.50€', h:'8.50€'},
+      {n:'Rojões à minhota', d:'Com castanhas, batata e tripas enfarinhadas', p:'15.00€', h:''},
+      {n:'Francesinha da casa', d:'Molho picante da casa e batata frita', p:'12.50€', h:''}]},
+    {heroTitle:'PEIXES', heroSub:'FRESCOS DA LOTA', secTitle:'Peixes | Fish | Poissons',
+     feat:{n:'Cataplana de peixe', d:'Peixe da lota, amêijoa e batata, para dois', p:'42.00€'},
+     items:[
+      {n:'Bacalhau à Brás', d:'Desfiado com batata palha, ovo e azeitonas', p:'14.50€', h:'8.00€'},
+      {n:'Sardinhas assadas', d:'Na brasa, com pimentos e broa de milho', p:'12.00€', h:''},
+      {n:'Arroz de tamboril', d:'Malandrinho, com camarão e coentros', p:'18.50€', h:''},
+      {n:'Dourada grelhada', d:'Com legumes salteados e azeite de alho', p:'16.00€', h:''},
+      {n:'Caldeirada de peixe', d:'Receita da costa, com pão torrado', p:'17.50€', h:''}]}
+  ],
+  phSheetPill: 'SUGESTÃO DO DIA', phSheetTitle: 'A nossa sugestão para si', phSheetSub: 'Uma refeição completa escolhida ao acaso',
+  phAsk: 'Hoje tem mais vontade de…',
+  phC1: 'CARNE', phC1d: 'Grelhados, assados e cortes nobres', phC2: 'PEIXE', phC2d: 'Do mar à mesa, fresquíssimo', phC3: 'MARISCO', phC3d: 'Tesouros do mar, seleção premium',
+  phAny: 'Surpreende-me (sem preferência)', phAgain: 'OUTRA SUGESTÃO', phClose: 'Fechar',
+  phMeal: [
+    {c:'ENTRADAS', s:'', items:[
+      {n:'Alheira de Mirandela', d:'Grelhada, com ovo estrelado e grelos salteados', p:'9.50€', u:'DOSE'},
+      {n:'Peixinhos da horta', d:'Feijão-verde em polme leve e estaladiço', p:'5.50€', u:'DOSE'}]},
+    {c:'PRATO PRINCIPAL', s:'CARNES', items:[
+      {n:'Posta mirandesa', d:'Vitela DOP grelhada na brasa, com batata a murro', p:'24.50€', u:'DOSE'}]},
+    {c:'HARMONIZAÇÃO', s:'DOURO · TINTO', items:[
+      {n:'Tinto do Douro Reserva', d:'Encorpado, com notas de fruta preta e especiarias', p:'26.00€', u:'75CL'}]},
+    {c:'SOBREMESA', s:'', items:[
+      {n:'Arroz doce', d:'Cremoso, com canela, à moda da avó', p:'4.50€', u:'DOSE'}]}
+  ],
+  sellEyebrow: 'Vender mais com a carta',
+  sellTitle: 'A carta passa a ser a sua melhor vendedora.',
+  sellLead: 'Uma carta em papel limita-se a listar pratos. A sua passa a sugerir, a destacar e a guiar o cliente até ao prato que a casa quer vender.',
+  hlClientLabel: 'O que o cliente vê', hlSheetLabel: 'O que só a casa sabe',
+  hlColDish: 'prato', hlColFeat: 'destaque', hlColWhy: 'motivo (interno)',
+  hlRows: [{a:'Cabrito assado',b:'SIM',c:'escoar stock'},{a:'Posta mirandesa',b:'SIM',c:'prato de referência'}],
+  hlCardDish: 'Cabrito assado', hlCardDesc: 'No forno a lenha, com arroz de forno', hlCardPrice: '19.50€',
+  hlTitle: 'Destaques dentro de cada categoria',
+  hlText: 'Escolha os pratos que quer ver sair e eles sobem ao topo da sua categoria, com o selo de destaque da casa. O cliente vê uma recomendação. O motivo, seja um prato de referência ou stock para escoar, fica entre si e a sua equipa.',
+  hlPoints: ['Pratos de referência que definem a identidade da casa','Stock para escoar antes que se estrague, sem o cliente saber porquê','Pratos de época ou com melhor margem','Hoje um, amanhã outro: muda quando quiser, sem reimprimir'],
+  srTitle: 'Surpreende-me',
+  srText: 'O cliente indeciso diz o que lhe apetece, carne, peixe, marisco ou sem preferência, e a carta monta uma refeição completa: duas entradas, um prato principal, uma bebida para harmonizar e uma sobremesa. Cada sugestão traz descrição e preço, e pode ser partilhada por WhatsApp.',
+  srChoices: ['Carne','Peixe','Marisco','Sem preferência'],
+  srMeal: [{c:'Entradas',n:'Alheira de Mirandela · Peixinhos da horta'},{c:'Prato principal',n:'Posta mirandesa'},{c:'Harmonização',n:'Tinto do Douro Reserva'},{c:'Sobremesa',n:'Arroz doce'}],
+  srPoints: ['Ajuda a decidir sem chamar o empregado','Sugere a refeição completa: entradas, vinho e sobremesa incluídos','Dá a conhecer pratos que o cliente nem ia ver','Cada partilha leva a sua casa a quem ainda não a conhece'],
+  srStat: 'sugestões pedidas por 346 clientes no Cerqueira, em apenas 2 meses',
+  stTitle: 'A carta diz sempre a verdade, mesmo quando o dia muda',
+  stLead: 'Pratos de dia especial, pratos por encomenda e faltas de produto comunicados ao cliente com clareza, antes de ele pedir. Sem reimprimir a carta, sem explicações à mesa.',
+  stateCards: [
+    {badge:'SÓ AO DOMINGO', dish:'Cabrito assado no forno', desc:'Com arroz de forno e batata assada', t:'Só aos domingos', p:'Os pratos de dia especial ficam na carta com a etiqueta do dia. Durante a semana o cliente vê que existem e ganha um motivo para voltar ao domingo.', k:'sun'},
+    {badge:'POR ENCOMENDA', dish:'Arroz de marisco', desc:'Para dois, com pré-aviso', t:'Por encomenda', p:'Os pratos que pedem pré-aviso continuam visíveis, com a indicação de encomenda. A cozinha prepara o que já está vendido, com menos desperdício.', k:'order'},
+    {badge:'TEMPORARIAMENTE INDISPONÍVEL', dish:'Polvo à lagareiro', desc:'Volta em breve', t:'Temporariamente indisponível', p:'Um prato sai de época ou falta um produto: o cliente sabe logo que não está disponível hoje, e o prato regressa à carta tal como estava assim que voltar.', k:'off'}
+  ],
+  needEyebrow: 'Para começarmos', needTitle: 'A imagem da sua casa, em formato digital',
+  needLead: 'A qualidade da carta depende da qualidade do material de partida. Quanto melhor o logótipo e as imagens, mais profissional fica o resultado, no telemóvel e no papel.',
+  needList: [
+    {t:'Logótipo em formato digital.', p:'De preferência vetorial (SVG, PDF ou AI) ou PNG em alta resolução com fundo transparente. Uma fotografia do letreiro não chega.'},
+    {t:'Cores e tipos de letra da casa,', p:'se existirem, para a carta seguir a mesma identidade.'},
+    {t:'Fotografias dos pratos e do espaço,', p:'em boa resolução, para os banners de cada secção.'},
+    {t:'A carta atual,', p:'em papel, PDF ou folha de cálculo, com preços e alergénios.'}
+  ],
+  rEyebrow: 'A solução', rTitle: 'A carta chega à mesa antes do empregado.',
+  rLead: 'O cliente senta-se, aponta o telemóvel ao QR da mesa e começa logo a escolher. Quando a equipa chega, ele já sabe o que quer. Menos espera para quem come, mais tempo para quem serve.',
+  autoEyebrow: 'Gestão 100% autónoma',
+  autoTitle: 'Quem gere a carta é a sua equipa, não nós.',
+  autoText: 'Pratos, preços e disponibilidade mudam-se em segundos, a partir do computador ou do telemóvel. Se sabe enviar uma mensagem, sabe gerir a carta.',
+  autoPoints: ['Qualquer funcionário pode atualizar pratos, preços e estados','Sem conhecimentos técnicos e sem pedir alterações a ninguém','As mudanças aparecem na carta de imediato'],
+  c1t: 'Muda a carta em segundos', c1p: 'Um prato novo, um preço revisto, um vinho que acabou: muda-se e está feito. Sem reimprimir.',
+  c2t: 'Fala a língua de quem chega', c2p: 'Português, inglês e francês, com nomes e descrições completos em cada língua. O turista lê sem pedir ajuda.',
+  c3t: 'Nunca promete o que não há', c3p: 'Marque um prato como “esgotado hoje” e a carta avisa de imediato. Menos desilusões, menos idas à cozinha.',
+  c4t: 'Destaca o que quer vender', c4p: 'Pratos da casa, novidades e sugestões ganham lugar de honra. A carta trabalha a seu favor.',
+  c5t: 'Mostra o que realmente acontece', c5p: 'Que mesas leem mais, que secções prendem a atenção, de onde vêm os clientes. Decide com dados, não com palpites. Incluído no pacote Signature.',
+  c6t: 'Nunca deixa a mesa sem carta', c6p: 'Se algo falhar, a carta continua a abrir com a última versão. O serviço não para.',
+  caseEyebrow: 'Caso prático · Tasquinha do Cerqueira, Apúlia',
+  caseTitle: 'Cinco meses de carta digital, em números reais.',
+  caseLead: 'A Tasquinha do Cerqueira usa o menu Bistrobit desde maio de 2026. Estes são os números registados pelo Google Analytics, sem arredondamentos de conveniência.',
+  caseSource: 'Fonte: Google Analytics 4 da carta da Tasquinha do Cerqueira. Período: maio a 22 de outubro de 2026.',
+  stats: [
+    {n:'6.614',l:'pessoas abriram a carta',d:'Utilizadores únicos no período'},
+    {n:'14.611',l:'visualizações da carta',d:'Em 11.995 sessões'},
+    {n:'18.510',l:'secções consultadas',d:'Os clientes exploram a carta, não ficam na capa'},
+    {n:'2 min 33 s',l:'tempo médio por pessoa',d:'Atenção dedicada aos seus pratos'},
+    {n:'3.719',l:'leituras de QR na esplanada',d:'Por 2.097 clientes, cada leitura associada à sua mesa'},
+    {n:'36',l:'países de origem',d:'Visitantes de França, Suíça, Espanha, Alemanha e mais'},
+    {n:'13%',l:'de clientes de fora de Portugal',d:'Mais de 860 pessoas a ler na sua língua'},
+    {n:'669',l:'vezes “Surpreende-me”',d:'Por 346 clientes, em 2 meses desde o lançamento'}
+  ],
+  caseRead: 'O que estes números dizem',
+  caseInsights: [
+    {t:'A carta é lida a sério',p:'Quase três secções abertas por pessoa e mais de dois minutos e meio de atenção.'},
+    {t:'Dentro e fora',p:'Na esplanada, 2.097 clientes leram o QR da mesa. Os restantes 4.517, cerca de 68%, consultaram a carta no interior. O próximo passo é ter um QR próprio também em cada mesa da sala.'},
+    {t:'O turista conta',p:'Um em cada oito clientes vem de fora. Sem tradução, estes clientes leriam uma carta que não entendem.'},
+    {t:'Dados que antes não existiam',p:'A casa sabe hoje que mesas, que secções e que origens geram mais consultas.'}
+  ],
+  fEyebrow: 'Funcionalidades', fTitle: 'Pensado ao detalhe, do primeiro toque ao último prato.',
+  fCol1: 'Na carta', fCol2: 'Na experiência',
+  f1: [
+    {n:'01',t:'Vários preços por prato',p:'Dose, meia dose e terço, cada um com a sua etiqueta.'},
+    {n:'02',t:'Alergénios visíveis',p:'Identificados em cada prato, em conformidade com o Regulamento (UE) n.º 1169/2011, em vigor na União Europeia.'},
+    {n:'03',t:'Estados de cada prato',p:'Novidade, por encomenda, só ao domingo, temporariamente indisponível, esgotado hoje.'},
+    {n:'04',t:'Destaques por categoria',p:'Pratos de referência ou para escoar stock, no topo de cada categoria.'},
+    {n:'05',t:'Pesquisa e filtros',p:'Encontrar um prato pelo nome ou por tipo, em todas as secções.'},
+    {n:'06',t:'Conformidade legal',p:'Aviso do Decreto-Lei n.º 10/2015 incluído, nas três línguas.'}
+  ],
+  f2: [
+    {n:'07',t:'Ecrã de entrada da casa',p:'Logótipo, boas-vindas e frases da casa enquanto a carta abre.'},
+    {n:'08',t:'Escolha de idioma à chegada',p:'O cliente escolhe uma vez e a carta inteira acompanha.'},
+    {n:'09',t:'Visita guiada',p:'Cinco passos animados para quem nunca usou um menu digital.'},
+    {n:'10',t:'“Surpreende-me”',p:'Pergunta o que apetece e sugere uma refeição completa, partilhável por WhatsApp.'},
+    {n:'11',t:'QR próprio por mesa',p:'Cada mesa tem o seu código e as consultas ficam registadas por mesa.'},
+    {n:'12',t:'Pensado para telemóvel',p:'Leitura confortável numa mão, com navegação rápida entre secções.'}
+  ],
+  dEyebrow: 'Para quem se senta à mesa', dTitle: 'Uma experiência que o cliente sente e recomenda.',
+  d1t: 'No seu telemóvel, na sua língua', d1p: 'Lê com calma, ao seu ritmo, sem disputar a carta com a mesa ao lado.',
+  d2t: 'Sabe o que vai comer', d2p: 'Descrições claras e alergénios à vista dão confiança, sobretudo a quem tem restrições.',
+  d3t: 'Não espera pela carta', d3p: 'Senta-se, aponta ao QR e começa a escolher logo. Só vê o que existe hoje.',
+  d4t: 'Partilha e volta', d4p: 'Envia um prato a um amigo por WhatsApp. A sua casa viaja para fora da mesa.',
+  qEyebrow: 'O padrão Bistrobit', qTitle: 'Feito à medida da sua casa. Não é um modelo.',
+  qLead: 'Cada carta é desenhada de raiz com a identidade do restaurante. O cliente não sente que está numa plataforma: sente que está na sua casa.',
+  pillars: [
+    {t:'Identidade própria',p:'Cores, logótipo e tipografia da casa. Não há duas cartas iguais.'},
+    {t:'Do QR ao papel',p:'Porta-menus, etiquetas de mesa e carta impressa podem seguir o mesmo desenho.'},
+    {t:'Leve e rápido',p:'Uma única página que abre em qualquer telemóvel, sem instalar nada.'},
+    {t:'Contacto direto',p:'Fala com a equipa que desenhou a sua carta, em Braga, e não com uma linha de apoio. Trabalhamos com restaurantes de todo o país.'}
+  ],
+  stepsTitle: 'Como avançamos',
+  steps: [
+    {n:'01',t:'Recolhemos a sua carta',p:'Pratos, preços, traduções, o que a casa quer destacar e o logótipo e as imagens em formato digital.'},
+    {n:'02',t:'Desenhamos com a sua identidade',p:'Vê a sua carta a funcionar e pede os ajustes que entender.'},
+    {n:'03',t:'Entregamos pronto a usar',p:'Carta online, QR por mesa e o acesso de gestão para a sua equipa.'}
+  ],
+  pEyebrow: 'Pacotes', pTitle: 'Dois pacotes, sem letras pequenas.',
+  pLead: 'Um setup único de 499,90 € para desenhar a carta com a identidade da sua casa, e uma mensalidade que a mantém online, segura e sempre a funcionar.',
+  billLabel: 'Período de pagamento', billMonthly: 'Mensal', billAnnual: 'Anual', billSave: 'Anual: 2 meses grátis',
+  unitMonth: '/mês', unitYear: '/ano', setupLine: '+ 499,90 € de setup, pago uma única vez',
+  p1Name: 'Essencial', p1Tag: 'A sua carta digital, desenhada à medida e sempre online.',
+  p1AnnualNote: 'Equivale a 24,92 €/mês. Poupa 59,80 € por ano.',
+  p1List: ['Menu interativo desenhado com a vossa identidade','Carta em português, inglês e francês','Gestão autónoma pela sua equipa, sem conhecimentos técnicos','QR próprio por mesa','Alojamento, domínio e funcionamento garantidos','Correções e atualizações de segurança'],
+  p1Cta: 'Escolher Essencial',
+  p2Name: 'Signature', p2Tag: 'Tudo do Essencial, com acompanhamento dedicado e dados sobre o desempenho da sua carta.', p2Badge: 'Recomendado',
+  p2AnnualNote: 'Equivale a 41,58 €/mês. Poupa 99,80 € por ano.',
+  p2List: ['Tudo do Essencial','Estatísticas de utilização com Google Analytics e relatório mensal básico','Suporte técnico prioritário','Apoio na decisão e reestruturação de processos'],
+  p2Cta: 'Escolher Signature',
+  exEyebrow: 'Extras', exTitle: 'À medida do que precisa',
+  exLead: 'Serviços opcionais, orçamentados à parte e só quando fizerem sentido para a sua casa.',
+  extras: [
+    {t:'Materiais impressos', p:'Porta-menus de mesa e etiquetas com QR por mesa, com o mesmo desenho da carta.', tag:'Sob orçamento'},
+    {t:'Carta impressa', p:'Versão em papel da carta digital, pronta a imprimir.', tag:'Sob orçamento'},
+    {t:'Relatório mensal de desempenho avançado', p:'Uma análise mensal pensada para a gerência: dias e horas de maior procura por turno, secções e mesas mais consultadas, clientes estrangeiros e plano de ação para o mês seguinte. Exportável em PDF.', tag:'Sob orçamento'},
+    {t:'Digital Signage', p:'A carta e os destaques num ecrã dentro do restaurante.', tag:'Sob orçamento'},
+    {t:'Gestão de críticas Google', p:'Respostas preparadas para aprovar e uma análise SWOT mensal, com forças e pontos de melhoria para passar à equipa.', tag:'Em breve'}
+  ],
+  cxEyebrow: 'Sem surpresas', cxTitle: 'E se um dia quiser cancelar?',
+  cancel: [
+    {n:'1', t:'Cancela quando quiser', p:'No plano mensal, basta avisar. Não há permanência mínima nem penalizações.'},
+    {n:'2', t:'A carta fica online até ao fim do período pago', p:'No mês em curso, ou até ao fim do ano no plano anual. Os seus clientes não ficam sem carta de um dia para o outro.'},
+    {n:'3', t:'Depois, a carta sai do ar', p:'A mensalidade é o que mantém o alojamento, o domínio e o funcionamento. Sem ela, os QR deixam de abrir a carta.'},
+    {n:'4', t:'Os seus dados são seus', p:'Fica com todo o conteúdo da carta: pratos, preços, descrições e traduções, prontos a usar onde quiser.'}
+  ],
+  guarantees: [
+    {t:'Sem fidelização',p:'Não há contratos de permanência. Fica porque quer.'},
+    {t:'Gestão autónoma',p:'A carta é sua e gerida pela sua equipa, em qualquer pacote.'},
+    {t:'Preço transparente',p:'O valor que vê é o valor que paga.'}
+  ],
+  ctaTitle: 'A próxima mesa não precisa de esperar.',
+  ctaLead: 'Peça uma demonstração, sem compromisso. Mostramos-lhe como ficaria a carta da sua casa, com a sua identidade e os seus pratos.',
+  ctaBtn: 'Pedir demonstração',
+  waEyebrow: 'Prefere falar já?', waText: 'Fale connosco por WhatsApp. A mensagem vai pré-preenchida, só tem de acrescentar o nome do restaurante.',
+  waBtn: 'Falar por WhatsApp',
+  waMsg: 'Olá! Vi a apresentação do menu interativo Bistrobit e gostava de marcar uma demonstração para o meu restaurante: ',
+  formTitle: 'Pedir demonstração', fName: 'Nome', fRest: 'Restaurante', fEmail: 'Email', fPhone: 'Telefone (opcional)',
+  fPkg: 'Pacote de interesse', fPkg0: 'Ainda não sei', fMsg: 'Mensagem (opcional)',
+  subject: 'Pedido de demonstração — pitch Bistrobit',
+  sending: 'A enviar…',
+  sentMsg: 'Obrigado! Recebemos o seu pedido e entraremos em contacto muito em breve.',
+  fbMsg: 'Não conseguimos enviar o pedido a partir desta página. Envie-o por WhatsApp, já vai escrito com os seus dados:',
+  invalidMsg: 'Preencha o nome, o restaurante e um email válido ou telefone, para o podermos contactar.',
+  photoAlt: 'Mesa de restaurante com o QR code da carta num suporte dourado',
+  photoCap: 'Aponta. Lê. Escolhe.',
+  footer: 'Menus digitais para restaurantes · Feito em Braga, Portugal · bistrobit.fyi'
+};
+const EN = {
+  langLabel: 'Language', navCta: 'Book a demo',
+  navLabel: 'Page sections',
+  navItems: [{l:'The problem',h:'#problema'},{l:'The solution',h:'#solucao'},{l:'Sell more',h:'#vender'},{l:'Real case',h:'#caso'},{l:'Features',h:'#funcionalidades'},{l:'Packages',h:'#pacotes'},{l:'Contact',h:'#contacto'}],
+  pbEyebrow: 'What happens at the table today',
+  pbTitle: 'The guest sits down. And waits.',
+  pbLead: 'In most restaurants, the meal starts with a pause: guests wait until someone has a free hand to bring them the menu. The first minutes, the ones that shape their impression of the place, are spent waiting.',
+  pains: [
+    {n:'01', t:'Waiting for the menu', p:'At peak times the team can’t reach every table. Guests look around, call, call again. Hunger grows and patience shrinks.'},
+    {n:'02', t:'Menus that no longer tell the truth', p:'Crossed-out prices, worn pages, dishes that ran out but are still printed. Reprinting costs money and time, so it gets put off.'},
+    {n:'03', t:'The tourist who can’t read it', p:'Without a translation, visitors order what they recognise, not the best the house has to offer. And the waiter becomes an interpreter.'},
+    {n:'04', t:'A team always rushing', p:'Bringing menus, explaining dishes, saying the octopus has run out. Minutes that could be spent serving tables and selling.'}
+  ],
+  pbBridge: 'What if the menu waited for the guest, and not the other way round?',
+  pbCta: 'See how',
+  heroEyebrow: 'Interactive digital menu · made to measure',
+  heroTitle: 'No guest should have to wait for the menu.',
+  heroLead: 'With Bistrobit, the menu is already on the table when guests sit down: in their language, with your restaurant’s identity and always up to date. All they do is point their phone.',
+  heroCta: 'Show me my menu like this', heroCta2: 'See a live menu',
+  heroFacts: [{a:'No app',b:'Opens in the browser'},{a:'No sign-up',b:'Scan and read'},{a:'PT · EN · FR',b:'Three languages'}],
+  phName: 'YOUR RESTAURANT', phMenu: 'DIGITAL MENU', phBack: 'BACK',
+  phTab1: 'STARTERS', phTab2: 'SOUPS', phTab3: 'MEAT', phTab4: 'FISH', phTab5: 'SEAFOOD',
+  coA: 'House highlight', coAd: 'Chosen by the house', coB: 'Surprise me', coBd: 'A full meal suggested',
+  phFeatPill: 'HOUSE HIGHLIGHT', phDose: 'FULL', phHalf: 'HALF', phSurprise: 'Surprise me', phSurpriseUp: 'SURPRISE ME', phUpdated: 'MENU UPDATED',
+  phPages: [
+    {heroTitle:'STARTERS', heroSub:'TO SHARE', secTitle:'Entradas | Starters | Entrées',
+     feat:{n:'Mirandela alheira', d:'Grilled smoked sausage, with fried egg and turnip greens', p:'9.50€'},
+     items:[
+      {n:'Peixinhos da horta', d:'Green beans in a light, crisp batter', p:'5.50€', h:''},
+      {n:'Stewed gizzards', d:'In tomato and red wine, with rustic bread', p:'6.50€', h:'4.00€'},
+      {n:'Octopus salad', d:'With red onion, peppers and coriander', p:'11.00€', h:''},
+      {n:'Mushrooms Bulhão Pato', d:'Sautéed with garlic, coriander and lemon', p:'7.50€', h:''},
+      {n:'Chouriço bread', d:'Fresh from the wood-fired oven', p:'4.50€', h:''}]},
+    {heroTitle:'MEAT', heroSub:'CHARGRILLED', secTitle:'Carnes | Meats | Viandes',
+     feat:{n:'Posta mirandesa', d:'PDO veal, chargrilled, with crushed potatoes', p:'24.50€'},
+     items:[
+      {n:'Black pork cheeks', d:'Braised in red wine, with chestnut purée', p:'16.00€', h:''},
+      {n:'Roast kid goat', d:'Wood-oven roasted, with baked rice', p:'19.50€', h:'11.00€'},
+      {n:'Duck rice', d:'The traditional way, with chouriço and orange zest', p:'14.50€', h:'8.50€'},
+      {n:'Minho-style rojões', d:'Pork with chestnuts, potatoes and tripe', p:'15.00€', h:''},
+      {n:'House francesinha', d:'Spicy house sauce and fries', p:'12.50€', h:''}]},
+    {heroTitle:'FISH', heroSub:'FRESH FROM THE MARKET', secTitle:'Peixes | Fish | Poissons',
+     feat:{n:'Fish cataplana', d:'Market fish, clams and potatoes, for two', p:'42.00€'},
+     items:[
+      {n:'Bacalhau à Brás', d:'Shredded salt cod with straw potatoes, egg and olives', p:'14.50€', h:'8.00€'},
+      {n:'Grilled sardines', d:'Chargrilled, with peppers and cornbread', p:'12.00€', h:''},
+      {n:'Monkfish rice', d:'Soupy rice with prawns and coriander', p:'18.50€', h:''},
+      {n:'Grilled sea bream', d:'With sautéed vegetables and garlic oil', p:'16.00€', h:''},
+      {n:'Fish stew', d:'A coastal recipe, with toasted bread', p:'17.50€', h:''}]}
+  ],
+  phSheetPill: 'TODAY’S PICK', phSheetTitle: 'Our suggestion for you', phSheetSub: 'A complete meal picked at random',
+  phAsk: 'What are you in the mood for?',
+  phC1: 'MEAT', phC1d: 'Grills, roasts and prime cuts', phC2: 'FISH', phC2d: 'From the sea to your table', phC3: 'SEAFOOD', phC3d: 'Treasures of the sea, premium selection',
+  phAny: 'Surprise me (no preference)', phAgain: 'ANOTHER PICK', phClose: 'Close',
+  phMeal: [
+    {c:'STARTERS', s:'', items:[
+      {n:'Mirandela alheira', d:'Grilled smoked sausage, with fried egg and turnip greens', p:'9.50€', u:'FULL'},
+      {n:'Peixinhos da horta', d:'Green beans in a light, crisp batter', p:'5.50€', u:'FULL'}]},
+    {c:'MAIN COURSE', s:'MEAT', items:[
+      {n:'Posta mirandesa', d:'PDO veal, chargrilled, with crushed potatoes', p:'24.50€', u:'FULL'}]},
+    {c:'PAIRING', s:'DOURO · RED', items:[
+      {n:'Douro Reserva red', d:'Full-bodied, with dark fruit and spice', p:'26.00€', u:'75CL'}]},
+    {c:'DESSERT', s:'', items:[
+      {n:'Arroz doce', d:'Creamy rice pudding with cinnamon, grandma’s way', p:'4.50€', u:'FULL'}]}
+  ],
+  sellEyebrow: 'Sell more with your menu',
+  sellTitle: 'Your menu becomes your best salesperson.',
+  sellLead: 'A paper menu just lists dishes. Yours will suggest, highlight and guide guests towards the dishes the house wants to sell.',
+  hlClientLabel: 'What the guest sees', hlSheetLabel: 'What only the house knows',
+  hlColDish: 'dish', hlColFeat: 'highlight', hlColWhy: 'reason (internal)',
+  hlRows: [{a:'Roast kid goat',b:'YES',c:'clear stock'},{a:'Posta mirandesa',b:'YES',c:'signature dish'}],
+  hlCardDish: 'Roast kid goat', hlCardDesc: 'Wood-oven roasted, with baked rice', hlCardPrice: '19.50€',
+  hlTitle: 'Highlights within each category',
+  hlText: 'Pick the dishes you want to sell and they rise to the top of their category with the house highlight seal. Guests see a recommendation. The reason, whether a signature dish or stock to clear, stays between you and your team.',
+  hlPoints: ['Signature dishes that define the restaurant','Stock to clear before it spoils, without guests knowing why','Seasonal dishes or those with better margins','One today, another tomorrow: change whenever you like, with no reprinting'],
+  srTitle: 'Surprise me',
+  srText: 'Undecided guests say what they fancy, meat, fish, seafood or no preference, and the menu builds a complete meal: two starters, a main course, a drink to pair and a dessert. Every suggestion comes with a description and price, and can be shared on WhatsApp.',
+  srChoices: ['Meat','Fish','Seafood','No preference'],
+  srMeal: [{c:'Starters',n:'Mirandela alheira · Peixinhos da horta'},{c:'Main course',n:'Posta mirandesa'},{c:'Pairing',n:'Douro Reserva red'},{c:'Dessert',n:'Arroz doce'}],
+  srPoints: ['Helps guests decide without calling the waiter','Suggests the whole meal: starters, wine and dessert included','Introduces dishes they would never have looked at','Every share takes your restaurant to people who don’t know it yet'],
+  srStat: 'suggestions requested by 346 guests at Cerqueira, in just 2 months',
+  stTitle: 'The menu always tells the truth, even when the day changes',
+  stLead: 'Special-day dishes, dishes to order and products that run short, clearly shown to guests before they order. No reprinting the menu, no explaining at the table.',
+  stateCards: [
+    {badge:'SUNDAYS ONLY', dish:'Oven-roasted kid goat', desc:'With baked rice and roast potatoes', t:'Sundays only', p:'Special-day dishes stay on the menu with the day’s label. During the week guests see they exist, and have a reason to come back on Sunday.', k:'sun'},
+    {badge:'TO ORDER', dish:'Seafood rice', desc:'For two, pre-order needed', t:'To order', p:'Dishes that need advance notice stay visible, marked as to order. The kitchen prepares what is already sold, with less waste.', k:'order'},
+    {badge:'TEMPORARILY UNAVAILABLE', dish:'Octopus “à lagareiro”', desc:'Back soon', t:'Temporarily unavailable', p:'A dish goes out of season or a product runs short: guests know straight away it isn’t available today, and the dish returns to the menu exactly as it was as soon as it’s back.', k:'off'}
+  ],
+  needEyebrow: 'To get started', needTitle: 'Your restaurant’s image, in digital format',
+  needLead: 'The menu is only as good as the material it starts from. The better your logo and images, the more professional the result, on the phone and on paper.',
+  needList: [
+    {t:'Logo in digital format.', p:'Ideally vector (SVG, PDF or AI) or a high-resolution PNG with a transparent background. A photo of the shop sign is not enough.'},
+    {t:'Your colours and fonts,', p:'if you have them, so the menu follows the same identity.'},
+    {t:'Photos of dishes and the space,', p:'in good resolution, for each section’s banner.'},
+    {t:'Your current menu,', p:'on paper, PDF or spreadsheet, with prices and allergens.'}
+  ],
+  rEyebrow: 'The solution', rTitle: 'The menu reaches the table before the waiter does.',
+  rLead: 'Guests sit down, point their phone at the table’s QR code and start choosing straight away. By the time your team arrives, they know what they want. Less waiting for diners, more time for staff.',
+  autoEyebrow: '100% self-managed',
+  autoTitle: 'Your team runs the menu, not us.',
+  autoText: 'Dishes, prices and availability change in seconds, from a computer or a phone. If you can send a message, you can manage the menu.',
+  autoPoints: ['Any member of staff can update dishes, prices and availability','No technical skills and no change requests to anyone','Changes show up on the menu straight away'],
+  c1t: 'Change the menu in seconds', c1p: 'A new dish, a revised price, a wine that ran out: change it and it’s done. No reprinting.',
+  c2t: 'Speaks your guests’ language', c2p: 'Portuguese, English and French, with full names and descriptions in each. Tourists read without asking for help.',
+  c3t: 'Never promises what isn’t there', c3p: 'Mark a dish as “sold out today” and the menu shows it instantly. Fewer disappointments, fewer trips to the kitchen.',
+  c4t: 'Highlights what you want to sell', c4p: 'House specials, new dishes and suggestions get pride of place. The menu works for you.',
+  c5t: 'Shows what really happens', c5p: 'Which tables read most, which sections hold attention, where guests come from. Decide with data, not hunches. Included in Signature.',
+  c6t: 'Never leaves a table without a menu', c6p: 'If something fails, the menu still opens with its latest version. Service doesn’t stop.',
+  caseEyebrow: 'Case study · Tasquinha do Cerqueira, Apúlia',
+  caseTitle: 'Five months of digital menu, in real numbers.',
+  caseLead: 'Tasquinha do Cerqueira has used the Bistrobit menu since May 2026. These are the figures recorded by Google Analytics, with no convenient rounding.',
+  caseSource: 'Source: Google Analytics 4 for the Tasquinha do Cerqueira menu. Period: May to 22 October 2026.',
+  stats: [
+    {n:'6,614',l:'people opened the menu',d:'Unique users in the period'},
+    {n:'14,611',l:'menu views',d:'Across 11,995 sessions'},
+    {n:'18,510',l:'sections browsed',d:'Guests explore the menu, not just the cover'},
+    {n:'2 min 33 s',l:'average time per person',d:'Real attention on your dishes'},
+    {n:'3,719',l:'QR scans on the terrace',d:'By 2,097 guests, each scan linked to its table'},
+    {n:'36',l:'countries of origin',d:'Visitors from France, Switzerland, Spain, Germany and more'},
+    {n:'13%',l:'of guests from outside Portugal',d:'Over 860 people reading in their own language'},
+    {n:'669',l:'“Surprise me” requests',d:'By 346 guests, in the 2 months since launch'}
+  ],
+  caseRead: 'What these numbers say',
+  caseInsights: [
+    {t:'The menu is properly read',p:'Almost three sections opened per person and over two and a half minutes of attention.'},
+    {t:'Inside and out',p:'On the terrace, 2,097 guests scanned their table’s QR. The other 4,517, about 68%, browsed the menu indoors. Next step: a dedicated QR on every indoor table too.'},
+    {t:'Tourists matter',p:'One in eight guests comes from abroad. Without translation, they would be reading a menu they can’t understand.'},
+    {t:'Data that didn’t exist before',p:'The restaurant now knows which tables, sections and origins drive the most views.'}
+  ],
+  fEyebrow: 'Features', fTitle: 'Thought through, from the first tap to the last course.',
+  fCol1: 'On the menu', fCol2: 'In the experience',
+  f1: [
+    {n:'01',t:'Several prices per dish',p:'Full, half and third portions, each with its own label.'},
+    {n:'02',t:'Visible allergens',p:'Marked on every dish, in line with EU Regulation No 1169/2011, in force across the European Union.'},
+    {n:'03',t:'Dish status',p:'New, made to order, Sundays only, temporarily unavailable, sold out today.'},
+    {n:'04',t:'Highlights per category',p:'Signature dishes or stock to clear, at the top of each category.'},
+    {n:'05',t:'Search and filters',p:'Find a dish by name or type, across every section.'},
+    {n:'06',t:'Legal compliance',p:'Portuguese Decree-Law 10/2015 notice included, in three languages.'}
+  ],
+  f2: [
+    {n:'07',t:'Branded welcome screen',p:'Logo, greeting and house taglines while the menu loads.'},
+    {n:'08',t:'Language choice on arrival',p:'Guests choose once and the whole menu follows.'},
+    {n:'09',t:'Guided tour',p:'Five animated steps for first-time digital menu users.'},
+    {n:'10',t:'“Surprise me”',p:'Asks what guests fancy and suggests a full meal, shareable on WhatsApp.'},
+    {n:'11',t:'A QR code per table',p:'Each table has its own code and views are logged per table.'},
+    {n:'12',t:'Built for mobile',p:'Comfortable one-handed reading with quick section navigation.'}
+  ],
+  dEyebrow: 'For the people at the table', dTitle: 'An experience guests feel and recommend.',
+  d1t: 'On their phone, in their language', d1p: 'They read calmly, at their own pace, without sharing a menu with the next table.',
+  d2t: 'They know what they’re eating', d2p: 'Clear descriptions and visible allergens build trust, especially for guests with restrictions.',
+  d3t: 'No waiting for the menu', d3p: 'Sit down, scan the QR and start choosing. They only see what’s available today.',
+  d4t: 'They share and come back', d4p: 'They send a dish to a friend on WhatsApp. Your restaurant travels beyond the table.',
+  qEyebrow: 'The Bistrobit standard', qTitle: 'Tailored to your restaurant. Not a template.',
+  qLead: 'Every menu is designed from scratch around the restaurant’s identity. Guests don’t feel they’re on a platform: they feel they’re at your place.',
+  pillars: [
+    {t:'Your own identity',p:'Your colours, logo and typography. No two menus are alike.'},
+    {t:'From QR to paper',p:'Menu holders, table labels and the printed menu can share the same design.'},
+    {t:'Light and fast',p:'A single page that opens on any phone, with nothing to install.'},
+    {t:'Direct contact',p:'You talk to the team in Braga that designed your menu, not a helpdesk. We work with restaurants all over Portugal.'}
+  ],
+  stepsTitle: 'How we work',
+  steps: [
+    {n:'01',t:'We collect your menu',p:'Dishes, prices, translations, what you want to highlight, and your logo and images in digital format.'},
+    {n:'02',t:'We design it with your identity',p:'You see your menu working and ask for any adjustments.'},
+    {n:'03',t:'We hand it over ready to use',p:'Menu online, a QR per table and management access for your team.'}
+  ],
+  pEyebrow: 'Packages', pTitle: 'Two packages, no small print.',
+  pLead: 'A one-off €499.90 setup to design the menu around your restaurant’s identity, and a monthly fee that keeps it online, secure and always working.',
+  billLabel: 'Billing period', billMonthly: 'Monthly', billAnnual: 'Annual', billSave: 'Annual: 2 months free',
+  unitMonth: '/month', unitYear: '/year', setupLine: '+ €499.90 setup, paid only once',
+  p1Name: 'Essential', p1Tag: 'Your digital menu, custom-designed and always online.',
+  p1AnnualNote: 'Works out at €24.92/month. Save €59.80 a year.',
+  p1List: ['Interactive menu designed with your identity','Menu in Portuguese, English and French','Self-management by your team, no technical skills needed','A QR code per table','Hosting, domain and uptime included','Fixes and security updates'],
+  p1Cta: 'Choose Essential',
+  p2Name: 'Signature', p2Tag: 'Everything in Essential, with dedicated guidance and data on how your menu performs.', p2Badge: 'Recommended',
+  p2AnnualNote: 'Works out at €41.58/month. Save €99.80 a year.',
+  p2List: ['Everything in Essential','Usage statistics with Google Analytics and a basic monthly report','Priority technical support','Help with decisions and process restructuring'],
+  p2Cta: 'Choose Signature',
+  exEyebrow: 'Extras', exTitle: 'Tailored to what you need',
+  exLead: 'Optional services, quoted separately and only when they make sense for your restaurant.',
+  extras: [
+    {t:'Printed materials', p:'Table menu holders and per-table QR labels, matching your menu’s design.', tag:'On quote'},
+    {t:'Printed menu', p:'A print-ready paper version of your digital menu.', tag:'On quote'},
+    {t:'Advanced monthly performance report', p:'A monthly analysis built for management: busiest days and hours by shift, most-viewed sections and tables, guests from abroad and an action plan for the month ahead. Exportable to PDF.', tag:'On quote'},
+    {t:'Digital Signage', p:'Your menu and highlights on a screen inside the restaurant.', tag:'On quote'},
+    {t:'Google review management', p:'Replies ready for your approval and a monthly SWOT analysis, with strengths and areas to improve to share with your team.', tag:'Coming soon'}
+  ],
+  cxEyebrow: 'No surprises', cxTitle: 'What if you ever want to cancel?',
+  cancel: [
+    {n:'1', t:'Cancel whenever you like', p:'On the monthly plan, just let us know. No minimum term, no penalties.'},
+    {n:'2', t:'Your menu stays online until the end of the paid period', p:'The current month, or the end of the year on the annual plan. Guests are never left without a menu overnight.'},
+    {n:'3', t:'Then the menu goes offline', p:'The monthly fee is what keeps hosting, domain and uptime running. Without it, the QR codes stop opening the menu.'},
+    {n:'4', t:'Your data is yours', p:'You keep all your menu content: dishes, prices, descriptions and translations, ready to use wherever you like.'}
+  ],
+  guarantees: [
+    {t:'No lock-in',p:'No minimum-term contracts. You stay because you want to.'},
+    {t:'Self-managed',p:'The menu is yours and run by your team, on either package.'},
+    {t:'Transparent pricing',p:'The price you see is the price you pay.'}
+  ],
+  ctaTitle: 'Your next table doesn’t have to wait.',
+  ctaLead: 'Ask for a demo, no strings attached. We’ll show you how your restaurant’s menu would look, with your identity and your dishes.',
+  ctaBtn: 'Request a demo',
+  waEyebrow: 'Rather talk now?', waText: 'Message us on WhatsApp. The message is pre-filled: just add your restaurant’s name.',
+  waBtn: 'Chat on WhatsApp',
+  waMsg: 'Hi! I saw the Bistrobit interactive menu presentation and would like to book a demo for my restaurant: ',
+  formTitle: 'Request a demo', fName: 'Name', fRest: 'Restaurant', fEmail: 'Email', fPhone: 'Phone (optional)',
+  fPkg: 'Package of interest', fPkg0: 'Not sure yet', fMsg: 'Message (optional)',
+  subject: 'Demo request — Bistrobit pitch',
+  sending: 'Sending…',
+  sentMsg: 'Thank you! We’ve received your request and will be in touch very soon.',
+  fbMsg: 'We couldn’t send the request from this page. Send it on WhatsApp instead, already written with your details:',
+  invalidMsg: 'Please fill in your name, restaurant and a valid email or phone number so we can reach you.',
+  photoAlt: 'Restaurant table with the menu QR code on a gold stand',
+  photoCap: 'Scan. Read. Choose.',
+  footer: 'Digital menus for restaurants · Made in Braga, Portugal · bistrobit.fyi'
+};
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#C9A55C';
+    const lang = (this.state && this.state.lang) || this.props.startLang || 'pt';
+    const isPT = lang !== 'en';
+    const on = 'background: ' + accent + '; color: #14120E; border: 0; border-radius: 999px; padding: 8px 16px; font: 600 13px Poppins, sans-serif; cursor: pointer; min-height: 36px';
+    const off = 'background: transparent; color: var(--b-muted); border: 0; border-radius: 999px; padding: 8px 16px; font: 500 13px Poppins, sans-serif; cursor: pointer; min-height: 36px';
+    const chipOn = 'font-size: 6.5px; background: #8B6914; color: #FFFFFF; padding: 2px 6px; border-radius: 3px; font-weight: 700; border: 1px solid #8B6914';
+    const chipOff = 'font-size: 6.5px; border: 1px solid #D8CBB0; color: #7A6A50; padding: 2px 6px; border-radius: 3px';
+    const base = isPT ? PT : EN;
+    const t = Object.assign({}, base, {
+      phPages: base.phPages.map((pg) => Object.assign({}, pg, {
+        items: pg.items.map((it) => Object.assign({}, it, { hasHalf: !!it.h }))
+      })),
+      phMeal: base.phMeal.map((c) => Object.assign({}, c, { hasSub: !!c.s })),
+      stateCards: base.stateCards.map((c) => Object.assign({}, c, { badgeStyle: 'font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 5px; white-space: nowrap; ' + ({ sun: 'background: #EFE7D6; color: #6A4F1E;', order: 'background: #E6ECF3; color: #284A6E;', off: 'background: #ECEAE6; color: #5E584E;' }[c.k] || '') }))
+    });
+    const W = [[64,88],[52,74],[70,92],[46,80],[60,70],[55,85]];
+    const skelRows = W.map(([a,b]) => ({ a: 'height: 8px; border-radius: 4px; background: #3A2A16; width: ' + a + '%', b: 'height: 5px; border-radius: 3px; background: #E3D8C4; width: ' + b + '%' }));
+    const srChoicesStyled = base.srChoices.map((l, i) => ({
+      l,
+      style: i === 0
+        ? 'font-size: 11px; font-weight: 600; color: #FFFFFF; background: #8B6914; border: 1px solid #8B6914; padding: 4px 12px; border-radius: 999px'
+        : 'font-size: 11px; color: #5E4A2A; border: 1px solid #D8CBB0; padding: 4px 12px; border-radius: 999px'
+    }));
+    const theme = (this.state && this.state.theme) || this.props.startTheme || 'light';
+    const isDark = theme === 'dark';
+    const LIGHT_VARS = '--bg: #F6F4EF; --surface: #FFFFFF; --surface2: #FAF8F3; --line: #E4DFD5; --ink: #1C1914; --text: #2A2620; --muted: #5E584E; --muted2: #6B6458; --faint: #8E877A; --gold: #7A5C24; --numeral: #C9BFAA;'
+      + ' --b-bg: #EDE7DB; --b-surface: #FFFFFF; --b-text: #2A2620; --b-ink: #1C1914; --b-ink2: #1C1914; --b-muted: #5E584E; --b-muted2: #5E584E; --b-faint: #6B6458; --b-line: #CBC1AE; --b-line2: #D9D0BF; --b-line3: #D9D0BF;';
+    const DARK_VARS = '--bg: #0F0E0B; --surface: #1A1814; --surface2: #1A1814; --line: #2E2921; --ink: #F7F2E7; --text: #E6DFD1; --muted: #B5AE9F; --muted2: #A39C8E; --faint: #948D80; --gold: #D4B474; --numeral: #4A4234;'
+      + ' --b-bg: #15130F; --b-surface: #1E1B16; --b-text: #EDE7DA; --b-ink: #F7F2E7; --b-ink2: #F4EEE1; --b-muted: #C9C1B1; --b-muted2: #B5AE9F; --b-faint: #9E9787; --b-line: #4A4234; --b-line2: #3A342A; --b-line3: #2E2921;';
+    const st = this.state || {};
+    const wa = String(this.props.whatsapp ?? '351915582194').replace(/[^0-9]/g, '');
+    const ref = String(this.props.trackingRef ?? 'PITCH-GERAL').trim() || 'PITCH-GERAL';
+    const langCode = isPT ? 'pt' : 'en';
+    const waText = t.waMsg + '\n\n(ref: ' + ref + '-' + langCode.toUpperCase() + ')';
+    const submitForm = () => {
+      const v = (id) => { const el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; };
+      const origin = ref + '-' + langCode.toUpperCase();
+      const data = { nome: v('dfName'), restaurante: v('dfRest'), email: v('dfEmail'), telefone: v('dfPhone'), pacote: v('dfPkg'), mensagem: v('dfMsg'),
+        _subject: t.subject + ' [' + origin + ']', origem: origin, idioma: langCode, _gotcha: v('dfGotcha') };
+      const emailOk = !data.email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
+      if (!data.nome || !data.restaurante || (!data.email && !data.telefone) || !emailOk) { this.setState({ invalid: true, sent: false, fallback: false }); return; }
+      const lines = [t.waMsg + data.restaurante, t.fName + ': ' + data.nome, t.fEmail + ': ' + (data.email || '-'), t.fPhone + ': ' + (data.telefone || '-'), t.fPkg + ': ' + data.pacote];
+      if (data.mensagem) lines.push(data.mensagem);
+      lines.push('', '(ref: ' + origin + ')');
+      const waFull = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(lines.join('\n'));
+      this.setState({ invalid: false, sent: false, fallback: false, sending: true, waFull });
+      const fd = new FormData();
+      Object.keys(data).forEach((k) => fd.append(k, data[k]));
+      fetch('https://formspree.io/f/xlgzkjdk', { method: 'POST', body: fd, headers: { Accept: 'application/json' } })
+        .then((res) => {
+          if (!res.ok) throw new Error('status ' + res.status);
+          ['dfName', 'dfRest', 'dfEmail', 'dfPhone', 'dfMsg'].forEach((id) => { const el = document.getElementById(id); if (el) el.value = ''; });
+          this.setState({ sending: false, sent: true });
+        })
+        .catch(() => { this.setState({ sending: false, fallback: true }); });
+    };
+    const isAnnual = st.billing === 'annual';
+    const billOn = 'background: var(--ink); color: var(--bg); border: 0; border-radius: 999px; padding: 10px 20px; font: 600 14px Poppins, sans-serif; cursor: pointer; min-height: 40px';
+    const billOff = 'background: transparent; color: var(--muted); border: 0; border-radius: 999px; padding: 10px 20px; font: 500 14px Poppins, sans-serif; cursor: pointer; min-height: 40px';
+    const eur = (pt, en) => isPT ? pt : en;
+    return {
+      isAnnual,
+      isMonthlyStr: isAnnual ? 'false' : 'true',
+      isAnnualStr: isAnnual ? 'true' : 'false',
+      monthlyBtn: isAnnual ? billOff : billOn,
+      annualBtn: isAnnual ? billOn : billOff,
+      setMonthly: () => this.setState({ billing: 'monthly' }),
+      setAnnual: () => this.setState({ billing: 'annual' }),
+      billUnit: isAnnual ? t.unitYear : t.unitMonth,
+      p1Recurring: isAnnual ? eur('299 €', '€299') : eur('29,90 €', '€29.90'),
+      p2Recurring: isAnnual ? eur('499 €', '€499') : eur('49,90 €', '€49.90'),
+      accent,
+      accentText: isDark ? accent : '#7A5C24',
+      srChoicesStyled,
+      skelRows,
+      logoSrc: isDark ? './assets/1d2db17b8d6613d5571a8907ee41629d.png' : './assets/3e7bb221518f4e2d19e4d0d5ee4685f6.png',
+      submitForm,
+      sending: !!st.sending,
+      sent: !!st.sent,
+      fallback: !!st.fallback,
+      invalid: !!st.invalid,
+      waFormHref: st.waFull || ('https://wa.me/' + wa + '?text=' + encodeURIComponent(waText)),
+      submitLabel: st.sending ? t.sending : t.ctaBtn,
+      t,
+      langCode,
+      themeVars: isDark ? DARK_VARS : LIGHT_VARS,
+      isDark,
+      isLight: !isDark,
+      themeLabel: isDark ? (isPT ? 'Mudar para modo claro' : 'Switch to light mode') : (isPT ? 'Mudar para modo escuro' : 'Switch to dark mode'),
+      toggleTheme: () => this.setState({ theme: isDark ? 'light' : 'dark' }),
+      waHref: 'https://wa.me/' + wa + '?text=' + encodeURIComponent(waText),
+      formSubject: t.subject + ' [' + ref + ']',
+      formOrigin: ref + '-' + langCode.toUpperCase(),
+      isPT: isPT ? 'true' : 'false',
+      isEN: isPT ? 'false' : 'true',
+      ptStyle: isPT ? on : off,
+      enStyle: isPT ? off : on,
+      phPT: isPT ? chipOn : chipOff,
+      phEN: isPT ? chipOff : chipOn,
+      setPT: () => this.setState({ lang: 'pt' }),
+      setEN: () => this.setState({ lang: 'en' })
+    };
+  }
+}
+</script>
+</body>
+</html>
