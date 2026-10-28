@@ -31,8 +31,16 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 .ph-pulse{animation:phPulse 2.4s ease-out infinite}
 .ph-float{animation:phFloat 6s ease-in-out infinite}
 .ph-float2{animation-delay:-3s}
+.bb-faq summary::-webkit-details-marker{display:none}
+.bb-faq[open] .bb-faq-i{transform:rotate(45deg)}
+.bb-faq-i{transition:transform .2s}
+.ph-chipA{animation:phFloat 6s ease-in-out infinite,phChipA 30s linear infinite}
+.ph-chipB{animation:phFloat 6s ease-in-out -3s infinite,phChipB 30s linear infinite}
+@keyframes phChipA{0%,36%{opacity:1;visibility:visible}40%,97%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}
+@keyframes phChipB{0%,30%{opacity:0;visibility:hidden}33%,90%{opacity:1;visibility:visible}94%,100%{opacity:0;visibility:hidden}}
+.mvis:hover .ph-chipA,.mvis:hover .ph-chipB{animation-play-state:paused}
 @keyframes phFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.ph:hover .ph-anim{animation-play-state:paused}
+.mvis:hover .ph-anim{animation-play-state:paused}
 @keyframes phSlide{0%,12%{transform:translateX(0)}16%,28%{transform:translateX(-33.3333%)}32%,95%{transform:translateX(-66.6667%)}99%,100%{transform:translateX(0)}}
 @keyframes phTab{0%,12%{left:0}16%,28%{left:124px}32%,95%{left:186px}99%,100%{left:0}}
 @keyframes phScroll{0%,20%{transform:translateY(0)}50%,62%{transform:translateY(-150px)}92%,100%{transform:translateY(0)}}
@@ -73,11 +81,16 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 .bbroot .mtopnav{justify-content:space-between!important;flex-wrap:nowrap!important;gap:10px!important}
 .bbroot .mtopnav img{width:60px!important;height:62px!important}
 .bbroot .mhide{display:none!important}
+.bbroot .mqr{flex-direction:column!important;text-align:center;align-items:center!important;padding:20px 18px!important}
+.bbroot .mqrsteps{justify-content:center}
 .bbroot .mvis{flex-wrap:nowrap!important;justify-content:center!important;width:100%}
-.bbroot .mfig{position:absolute!important;left:0;bottom:24px;margin:0!important;z-index:4!important}
+.bbroot .mfig{position:absolute!important;left:0;top:300px;bottom:auto!important;margin:0!important;z-index:4!important}
 .bbroot .mfig img{width:108px!important;height:134px!important;border-width:3px!important}
 .bbroot .mfig figcaption{font-size:10px!important;padding:3px 8px!important}
-.bbroot .msecnav a{min-height:36px!important;padding:0 14px!important;font-size:11px!important}
+.bbroot .msecnav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px!important;padding:8px 10px!important;overflow:visible!important;white-space:normal!important}
+.bbroot .msecnav a{justify-content:center;text-align:center;min-height:32px!important;padding:2px 4px!important;font-size:9.5px!important;letter-spacing:0.06em!important;line-height:1.2}
+.bbroot .msecnav .mcta{position:fixed!important;left:50%;bottom:16px;transform:translateX(-50%);z-index:40;margin:0!important;min-height:46px!important;padding:0 24px!important;font-size:12px!important;letter-spacing:0.1em!important;white-space:nowrap;box-shadow:0 10px 28px rgba(0,0,0,0.35)}
+.bbroot #contacto{padding-bottom:96px!important}
 .bbroot .mtc{text-align:center!important}
 .bbroot .mc > span{align-self:center!important}
 .bbroot [style*="padding-top: 28px; border-top: 1px solid var(--b-line3)"]{justify-content:center!important;text-align:center;flex-direction:column;align-items:center}
@@ -115,22 +128,30 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 <div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: {{accentText}}">{{t.heroEyebrow}}</div>
 <h1 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(38px, 5.2vw, 62px); line-height: 1.08; color: var(--b-ink)">{{t.heroTitle}}</h1>
 <p style="margin: 0; font-size: 18px; font-weight: 300; color: var(--b-muted); max-width: 520px">{{t.heroLead}}</p>
+<div class="mqr" style="display: flex; align-items: center; gap: 18px; background: var(--b-surface); border: 1px solid var(--b-line2); border-left: 4px solid {{accent}}; border-radius: 16px; padding: 18px 22px; max-width: 540px; box-sizing: border-box">
+<span style="flex: none; width: 56px; height: 56px; border-radius: 14px; background: {{accent}}; color: #14120E; display: flex; align-items: center; justify-content: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4z"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div style="font-family: Lora, Georgia, serif; font-weight: 600; font-size: 20px; line-height: 1.25; color: var(--b-ink)">{{t.qrTitle}}</div>
+<div style="font-size: 14px; color: var(--b-muted)">{{t.qrSub}}</div>
+<div class="mqrsteps" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{t.qrSteps}}" as="q" hint-placeholder-count="3">
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--b-ink2); border: 1px solid var(--b-line); border-radius: 999px; padding: 4px 10px 4px 4px"><span style="width: 18px; height: 18px; border-radius: 50%; background: var(--b-ink); color: var(--b-bg); font-size: 10px; display: inline-flex; align-items: center; justify-content: center">{{q.n}}</span>{{q.t}}</span>
+</sc-for>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--b-ink2); border: 1px solid {{accent}}; background: var(--b-bg); border-radius: 999px; padding: 4px 10px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>{{t.qrLang}}</span>
+</div>
+</div>
+</div>
 <div class="mbtns" style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 4px">
 <a href="#contacto" style="background: {{accent}}; color: #14120E; text-decoration: none; font-weight: 500; font-size: 15px; padding: 14px 26px; border-radius: 999px">{{t.heroCta}}</a>
-</div>
-<div class="mfacts" style="display: flex; flex-wrap: wrap; gap: 28px; padding-top: 20px; border-top: 1px solid var(--b-line3); font-size: 14px; color: var(--b-muted2)">
-<sc-for list="{{t.heroFacts}}" as="f" hint-placeholder-count="3">
-<div style="display: flex; flex-direction: column; gap: 2px"><span style="color: var(--b-ink2); font-weight: 500">{{f.a}}</span><span>{{f.b}}</span></div>
-</sc-for>
 </div>
 </div>
 
 <div class="mvis" style="position: relative; flex: 0 1 500px; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; min-width: 0">
-<div class="ph-float" style="position: absolute; top: 70px; right: 0; z-index: 3; background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 14px; padding: 10px 14px; box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; align-items: center; gap: 10px; max-width: 200px">
+<div class="ph-float ph-chipA" style="position: absolute; top: 205px; right: 0; z-index: 3; background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 14px; padding: 10px 14px; box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; align-items: center; gap: 10px; max-width: 200px">
 <span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #14120E; display: flex; align-items: center; justify-content: center; font-size: 14px">★</span>
 <span style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12px; font-weight: 600; color: var(--b-ink)">{{t.coA}}</span><span style="font-size: 11px; color: var(--b-muted)">{{t.coAd}}</span></span>
 </div>
-<div class="ph-float ph-float2" style="position: absolute; bottom: 150px; right: 0; z-index: 3; background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 14px; padding: 10px 14px; box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; align-items: center; gap: 10px; max-width: 210px">
+<div class="ph-float ph-chipB" style="position: absolute; bottom: 22px; right: 0; z-index: 3; background: var(--b-surface); border: 1px solid var(--b-line2); border-radius: 14px; padding: 10px 14px; box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; align-items: center; gap: 10px; max-width: 210px">
 <span style="flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid {{accent}}; color: {{accentText}}; display: flex; align-items: center; justify-content: center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"></rect><circle cx="9" cy="9" r="1"></circle><circle cx="15" cy="15" r="1"></circle><circle cx="15" cy="9" r="1"></circle><circle cx="9" cy="15" r="1"></circle></svg></span>
 <span style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12px; font-weight: 600; color: var(--b-ink)">{{t.coB}}</span><span style="font-size: 11px; color: var(--b-muted)">{{t.coBd}}</span></span>
 </div>
@@ -263,7 +284,7 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 <sc-for list="{{t.navItems}}" as="ni" hint-placeholder-count="6">
 <a href="{{ni.h}}" style="flex: none; display: inline-flex; align-items: center; min-height: 38px; padding: 0 16px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bg); text-decoration: none; border: 1px solid rgba(128,128,128,0.45); border-radius: 999px">{{ni.l}}</a>
 </sc-for>
-<a href="#contacto" style="flex: none; display: inline-flex; align-items: center; min-height: 38px; padding: 0 18px; margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #14120E; background: {{accent}}; text-decoration: none; border-radius: 999px">{{t.navCta}}</a>
+<a class="mcta" href="#contacto" style="flex: none; display: inline-flex; align-items: center; min-height: 38px; padding: 0 18px; margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #14120E; background: {{accent}}; text-decoration: none; border-radius: 999px">{{t.navCta}}</a>
 </div>
 </nav>
 <section id="problema" style="scroll-margin-top: 64px; padding: 104px 24px 96px; background: var(--surface); border-bottom: 1px solid var(--line)">
@@ -580,6 +601,22 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 <h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--ink)">{{t.pTitle}}</h2>
 <p style="margin: 0; color: var(--muted); font-size: 17px">{{t.pLead}}</p>
 </div>
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div class="mc" style="display: flex; flex-direction: column; gap: 8px; max-width: 680px">
+<h3 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: 26px; color: var(--ink)">{{t.svTitle}}</h3>
+<p style="margin: 0; color: var(--muted); font-size: 16px">{{t.svLead}}</p>
+</div>
+<div class="mswipe mcenter" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px">
+<sc-for list="{{t.savings}}" as="sv" hint-placeholder-count="4">
+<div style="background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 24px 22px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-family: Lora, Georgia, serif; font-size: 30px; line-height: 1.1; color: var(--gold)">{{sv.n}}</div>
+<div style="font-weight: 600; color: var(--ink); font-size: 15px">{{sv.t}}</div>
+<div style="font-size: 14px; color: var(--muted)">{{sv.p}}</div>
+</div>
+</sc-for>
+</div>
+<div class="mtc" style="font-size: 12px; color: var(--muted2)">{{t.svNote}}</div>
+</div>
 <div class="mrow" style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
 <div role="group" aria-label="{{t.billLabel}}" style="display: inline-flex; border: 1px solid var(--line); background: var(--surface2); border-radius: 999px; padding: 4px">
 <button type="button" onClick="{{setMonthly}}" aria-pressed="{{isMonthlyStr}}" style="{{monthlyBtn}}">{{t.billMonthly}}</button>
@@ -594,7 +631,9 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 <div style="font-size: 15px; color: var(--muted)">{{t.p1Tag}}</div>
 </div>
 <div class="mc" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 24px; border-bottom: 1px solid var(--line)">
+<span style="align-self: flex-start; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2F5A2B; background: #E4EEDC; border-radius: 999px; padding: 3px 10px">{{t.launchLabel}}</span>
 <div class="mrow" style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap">
+<span style="font-family: Lora, Georgia, serif; font-size: 22px; line-height: 1; color: var(--muted); text-decoration: line-through">{{p1Was}}</span>
 <span style="font-family: Lora, Georgia, serif; font-size: 44px; line-height: 1; color: var(--ink)">{{p1Recurring}}</span>
 <span style="font-size: 15px; color: var(--muted)">{{billUnit}}</span>
 </div>
@@ -617,7 +656,9 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 <span style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; background: {{accent}}; color: #14120E; padding: 5px 12px; border-radius: 999px; font-weight: 600">{{t.p2Badge}}</span>
 </div>
 <div class="mc" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 24px; border-bottom: 1px solid var(--b-line2)">
+<span style="align-self: flex-start; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2F5A2B; background: #E4EEDC; border-radius: 999px; padding: 3px 10px">{{t.launchLabel}}</span>
 <div class="mrow" style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap">
+<span style="font-family: Lora, Georgia, serif; font-size: 22px; line-height: 1; color: var(--b-muted); text-decoration: line-through">{{p2Was}}</span>
 <span style="font-family: Lora, Georgia, serif; font-size: 44px; line-height: 1; color: var(--b-ink)">{{p2Recurring}}</span>
 <span style="font-size: 15px; color: var(--b-muted)">{{billUnit}}</span>
 </div>
@@ -669,6 +710,23 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"></path><path d="M9 12l2 2 4-4"></path></svg>
 <div><div style="font-weight: 500; color: var(--ink)">{{g.t}}</div><div style="font-size: 14px; color: var(--muted)">{{g.p}}</div></div>
 </div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="faq" style="scroll-margin-top: 64px; padding: 104px 24px">
+<div style="max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+<div class="mc" style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
+<div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold)">{{t.faqEyebrow}}</div>
+<h2 style="margin: 0; font-family: Lora, Georgia, serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--ink)">{{t.faqTitle}}</h2>
+</div>
+<div style="display: flex; flex-direction: column; border-top: 1px solid var(--ink)">
+<sc-for list="{{t.faqs}}" as="fq" hint-placeholder-count="8">
+<details class="bb-faq" style="border-bottom: 1px solid var(--line)">
+<summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 4px; cursor: pointer; font-weight: 500; font-size: 17px; color: var(--ink); list-style: none">{{fq.q}}<span class="bb-faq-i" aria-hidden="true" style="flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold); display: inline-flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1">+</span></summary>
+<p style="margin: 0; padding: 0 44px 22px 4px; font-size: 15px; color: var(--muted)">{{fq.a}}</p>
+</details>
 </sc-for>
 </div>
 </div>
@@ -741,7 +799,11 @@ const PT = {
   heroTitle: 'Nenhum cliente devia esperar pela carta.',
   heroLead: 'Com a Bistrobit, a carta já está na mesa quando o cliente se senta: na língua dele, com a identidade da sua casa e sempre atualizada. Basta apontar o telemóvel.',
   heroCta: 'Quero ver a minha carta assim',
-  heroFacts: [{a:'Sem app',b:'Abre no navegador'},{a:'Sem registo',b:'Aponta e lê'},{a:'PT · EN · FR',b:'Três línguas'}],
+  heroFacts: [{a:'Sem app',b:'Abre no navegador'},{a:'Sem autenticação',b:'Nem conta, nem palavra-passe'},{a:'PT · EN · FR',b:'Três línguas'}],
+  qrTitle: 'Aponta o QR Code e vê a ementa.',
+  qrSub: 'Sem app, sem registo, sem autenticação. A carta abre em segundos no telemóvel do cliente.',
+  qrSteps: [{n:'1',t:'Aponta a câmara'},{n:'2',t:'A ementa abre'},{n:'3',t:'Escolhe'}],
+  qrLang: 'PT · EN · FR',
   phName: 'O SEU RESTAURANTE', phMenu: 'EMENTA DIGITAL', phBack: 'VOLTAR',
   phTab1: 'ENTRADAS', phTab2: 'SOPAS', phTab3: 'CARNES', phTab4: 'PEIXES', phTab5: 'MARISCOS',
   coA: 'Destaque da casa', coAd: 'Escolhido pela casa', coB: 'Surpreende-me', coBd: 'Refeição completa sugerida',
@@ -882,7 +944,27 @@ const PT = {
     {t:'Leve e rápido',p:'Uma única página que abre em qualquer telemóvel, sem instalar nada.'},
     {t:'Contacto direto',p:'Fala com a equipa que desenhou a sua carta, em Braga, e não com uma linha de apoio. Trabalhamos com restaurantes de todo o país.'}
   ],
-  stepsTitle: 'Como avançamos',
+  svTitle: 'Quanto custa, e quanto pode render',
+  svLead: 'A mensalidade é pequena quando comparada com o que a carta faz pela casa todos os dias.',
+  savings: [
+    {n:'< 1,70 €', t:'por dia, no plano Signature', p:'49,90 € por mês dá menos de 1,70 € por dia, com 2 horas mensais de alterações feitas por nós. No plano anual, cerca de 1,37 € por dia.'},
+    {n:'1 sobremesa', t:'a mais por dia paga a mensalidade', p:'Uma sobremesa de 4,50 € vendida a mais por dia são cerca de 135 € por mês: paga o Signature mais de duas vezes.'},
+    {n:'Em segundos', t:'um preço novo na carta digital', p:'Sem tipografia nem custos de impressão. Se mantiver cartas em papel, a versão para impressão é ajustada à parte, ou dentro das 2 horas mensais do Signature.'},
+    {n:'Mais tempo', t:'para servir e vender', p:'Menos idas à mesa para levar cartas, traduzir pratos ou avisar que algo acabou. Esse tempo volta para o serviço.'}
+  ],
+  svNote: 'Valores ilustrativos. Os preços e as vendas de cada casa são diferentes.',
+  faqEyebrow: 'Perguntas frequentes', faqTitle: 'O que os restaurantes nos perguntam.',
+  faqs: [
+    {q:'Quanto tempo demora a ter a carta no ar?', a:'Em 7 dias, a contar do momento em que recebemos toda a informação: logótipo e imagens em formato digital e a carta atual, com preços e alergénios.'},
+    {q:'O cliente precisa de instalar uma app ou criar conta?', a:'Não. Aponta a câmara ao QR e a carta abre no navegador do telemóvel. Sem registo e sem autenticação.'},
+    {q:'E os clientes que preferem papel, ou não usam o telemóvel?', a:'Pode manter as cartas em papel, como faz a casa do nosso caso real, e desenhamos a versão impressa com o mesmo aspeto da carta digital. Outra opção são tablets nas mesas com a carta já aberta: o cliente não precisa de usar o telemóvel e a carta está sempre atualizada.'},
+    {q:'E se a rede no restaurante for fraca?', a:'A carta é uma página leve, pensada para abrir depressa mesmo com rede móvel fraca. Com Wi-Fi para clientes, melhor ainda.'},
+    {q:'Quem faz as alterações do dia a dia?', a:'A sua equipa, sem conhecimentos técnicos. Pratos, preços, disponibilidade e destaques mudam em segundos, a partir do computador ou do telemóvel.'},
+    {q:'A carta está traduzida?', a:'Sim. É entregue em português, inglês e francês, com o nome e a descrição de cada prato nas três línguas.'},
+    {q:'A carta recolhe dados dos meus clientes?', a:'Não pede nome, email nem telefone. As estatísticas de utilização são agregadas e não identificam quem consulta a carta.'},
+    {q:'Fico preso a um contrato?', a:'Não. Não há fidelização: no plano mensal cancela quando quiser, e a carta fica online até ao fim do período pago.'}
+  ],
+  stepsTitle: 'Como avançamos · carta no ar em 7 dias',
   steps: [
     {n:'01',t:'Recolhemos a sua carta',p:'Pratos, preços, traduções, o que a casa quer destacar e o logótipo e as imagens em formato digital.'},
     {n:'02',t:'Desenhamos com a sua identidade',p:'Vê a sua carta a funcionar e pede os ajustes que entender.'},
@@ -891,14 +973,15 @@ const PT = {
   pEyebrow: 'Pacotes', pTitle: 'Dois pacotes, sem letras pequenas.',
   pLead: 'Um setup único de 499,90 € para desenhar a carta com a identidade da sua casa, e uma mensalidade que a mantém online, segura e sempre a funcionar.',
   billLabel: 'Período de pagamento', billMonthly: 'Mensal', billAnnual: 'Anual', billSave: 'Anual: 2 meses grátis',
+  launchLabel: 'Preço de lançamento para sempre, se aderir até 31/12/2026',
   unitMonth: '/mês', unitYear: '/ano', setupLine: '+ 499,90 € de setup, pago uma única vez',
   p1Name: 'Essencial', p1Tag: 'A sua carta digital, desenhada à medida e sempre online.',
   p1AnnualNote: 'Equivale a 24,92 €/mês. Poupa 59,80 € por ano.',
   p1List: ['Menu interativo desenhado com a vossa identidade','Carta em português, inglês e francês','Gestão autónoma pela sua equipa, sem conhecimentos técnicos','QR próprio por mesa','Alojamento, domínio e funcionamento garantidos','Correções e atualizações de segurança'],
   p1Cta: 'Escolher Essencial',
-  p2Name: 'Signature', p2Tag: 'Tudo do Essencial, com acompanhamento dedicado e dados sobre o desempenho da sua carta.', p2Badge: 'Recomendado',
+  p2Name: 'Signature', p2Tag: 'Tudo do Essencial, com alterações feitas por nós todos os meses e dados sobre o desempenho da sua carta.', p2Badge: 'Recomendado',
   p2AnnualNote: 'Equivale a 41,58 €/mês. Poupa 99,80 € por ano.',
-  p2List: ['Tudo do Essencial','Estatísticas de utilização com Google Analytics e relatório mensal básico','Suporte técnico prioritário','Apoio na decisão e reestruturação de processos'],
+  p2List: ['Tudo do Essencial','Até 2 horas por mês de alterações feitas por nós (não acumuláveis)','Estatísticas de utilização com Google Analytics e relatório mensal básico','Suporte técnico prioritário','Apoio na decisão e reestruturação de processos'],
   p2Cta: 'Escolher Signature',
   exEyebrow: 'Extras', exTitle: 'À medida do que precisa',
   exLead: 'Serviços opcionais, orçamentados à parte e só quando fizerem sentido para a sua casa.',
@@ -906,8 +989,8 @@ const PT = {
     {t:'Materiais impressos', p:'Porta-menus de mesa e etiquetas com QR por mesa, com o mesmo desenho da carta.', tag:'Sob orçamento'},
     {t:'Carta impressa', p:'Versão em papel da carta digital, pronta a imprimir.', tag:'Sob orçamento'},
     {t:'Relatório mensal de desempenho avançado', p:'Uma análise mensal pensada para a gerência: dias e horas de maior procura por turno, secções e mesas mais consultadas e clientes estrangeiros.', tag:'Sob orçamento'},
-    {t:'Digital Signage', p:'A carta e os destaques num ecrã dentro do restaurante.', tag:'Sob orçamento'},
-    {t:'Gestão de críticas Google', p:'Respostas preparadas para aprovar e uma análise SWOT mensal, com forças e pontos de melhoria para passar à equipa.', tag:'Em breve'}
+    {t:'Carta em ecrã', p:'A carta e os destaques num ecrã dentro do restaurante, sempre atualizados. Com vídeos da confeção dos pratos, abre o apetite, mostra como se cozinha na casa e ajuda a vender.', tag:'Sob orçamento'},
+    {t:'Gestão de críticas Google', p:'Respostas preparadas para aprovar e uma análise SWOT mensal, com forças e pontos de melhoria para passar à equipa.', tag:'Sob orçamento'}
   ],
   cxEyebrow: 'Sem surpresas', cxTitle: 'E se um dia quiser cancelar?',
   cancel: [
@@ -957,7 +1040,11 @@ const EN = {
   heroTitle: 'No guest should have to wait for the menu.',
   heroLead: 'With Bistrobit, the menu is already on the table when guests sit down: in their language, with your restaurant’s identity and always up to date. All they do is point their phone.',
   heroCta: 'Show me my menu like this',
-  heroFacts: [{a:'No app',b:'Opens in the browser'},{a:'No sign-up',b:'Scan and read'},{a:'PT · EN · FR',b:'Three languages'}],
+  heroFacts: [{a:'No app',b:'Opens in the browser'},{a:'No login',b:'No account, no password'},{a:'PT · EN · FR',b:'Three languages'}],
+  qrTitle: 'Point at the QR code and see the menu.',
+  qrSub: 'No app, no sign-up, no login. The menu opens in seconds on the guest’s phone.',
+  qrSteps: [{n:'1',t:'Point the camera'},{n:'2',t:'The menu opens'},{n:'3',t:'Choose'}],
+  qrLang: 'PT · EN · FR',
   phName: 'YOUR RESTAURANT', phMenu: 'DIGITAL MENU', phBack: 'BACK',
   phTab1: 'STARTERS', phTab2: 'SOUPS', phTab3: 'MEAT', phTab4: 'FISH', phTab5: 'SEAFOOD',
   coA: 'House highlight', coAd: 'Chosen by the house', coB: 'Surprise me', coBd: 'A full meal suggested',
@@ -1098,7 +1185,27 @@ const EN = {
     {t:'Light and fast',p:'A single page that opens on any phone, with nothing to install.'},
     {t:'Direct contact',p:'You talk to the team in Braga that designed your menu, not a helpdesk. We work with restaurants all over Portugal.'}
   ],
-  stepsTitle: 'How we work',
+  svTitle: 'What it costs, and what it can earn',
+  svLead: 'The monthly fee is small compared with what the menu does for your restaurant every day.',
+  savings: [
+    {n:'< €1.70', t:'a day on the Signature plan', p:'€49.90 a month is less than €1.70 a day, with 2 hours of changes made by us every month. On the annual plan, about €1.37 a day.'},
+    {n:'1 dessert', t:'extra a day pays the monthly fee', p:'One extra €4.50 dessert a day is about €135 a month: it pays for Signature more than twice over.'},
+    {n:'In seconds', t:'a new price on the digital menu', p:'No printer and no printing costs. If you keep paper menus too, the print version is updated separately, or within the 2 monthly hours of Signature.'},
+    {n:'More time', t:'to serve and sell', p:'Fewer trips to bring menus, translate dishes or say something has run out. That time goes back into service.'}
+  ],
+  svNote: 'Illustrative figures. Every restaurant’s prices and sales are different.',
+  faqEyebrow: 'Frequently asked questions', faqTitle: 'What restaurants ask us.',
+  faqs: [
+    {q:'How long until the menu is live?', a:'7 days from the moment we receive all the information: your logo and images in digital format and your current menu, with prices and allergens.'},
+    {q:'Do guests need to install an app or create an account?', a:'No. They point the camera at the QR code and the menu opens in the phone’s browser. No sign-up, no login.'},
+    {q:'What about guests who prefer paper, or don’t use their phone?', a:'You can keep your paper menus, just like the restaurant in our real case, and we design a printed version that matches the digital menu. Another option is tablets on the tables with the menu already open: guests don’t need their own phone and the menu is always up to date.'},
+    {q:'What if the signal in the restaurant is weak?', a:'The menu is a lightweight page, built to open quickly even on a weak mobile connection. Guest Wi-Fi makes it even better.'},
+    {q:'Who makes the day-to-day changes?', a:'Your team, with no technical skills. Dishes, prices, availability and highlights change in seconds, from a computer or a phone.'},
+    {q:'Is the menu translated?', a:'Yes. It is delivered in Portuguese, English and French, with each dish’s name and description in all three languages.'},
+    {q:'Does the menu collect my guests’ data?', a:'It never asks for a name, email or phone number. Usage statistics are aggregated and do not identify who views the menu.'},
+    {q:'Am I tied to a contract?', a:'No. There is no lock-in: on the monthly plan you cancel whenever you like, and the menu stays online until the end of the paid period.'}
+  ],
+  stepsTitle: 'How we work · live in 7 days',
   steps: [
     {n:'01',t:'We collect your menu',p:'Dishes, prices, translations, what you want to highlight, and your logo and images in digital format.'},
     {n:'02',t:'We design it with your identity',p:'You see your menu working and ask for any adjustments.'},
@@ -1107,14 +1214,15 @@ const EN = {
   pEyebrow: 'Packages', pTitle: 'Two packages, no small print.',
   pLead: 'A one-off €499.90 setup to design the menu around your restaurant’s identity, and a monthly fee that keeps it online, secure and always working.',
   billLabel: 'Billing period', billMonthly: 'Monthly', billAnnual: 'Annual', billSave: 'Annual: 2 months free',
+  launchLabel: 'Launch price for life if you join by 31/12/2026',
   unitMonth: '/month', unitYear: '/year', setupLine: '+ €499.90 setup, paid only once',
   p1Name: 'Essential', p1Tag: 'Your digital menu, custom-designed and always online.',
   p1AnnualNote: 'Works out at €24.92/month. Save €59.80 a year.',
   p1List: ['Interactive menu designed with your identity','Menu in Portuguese, English and French','Self-management by your team, no technical skills needed','A QR code per table','Hosting, domain and uptime included','Fixes and security updates'],
   p1Cta: 'Choose Essential',
-  p2Name: 'Signature', p2Tag: 'Everything in Essential, with dedicated guidance and data on how your menu performs.', p2Badge: 'Recommended',
+  p2Name: 'Signature', p2Tag: 'Everything in Essential, with changes made by us every month and data on how your menu performs.', p2Badge: 'Recommended',
   p2AnnualNote: 'Works out at €41.58/month. Save €99.80 a year.',
-  p2List: ['Everything in Essential','Usage statistics with Google Analytics and a basic monthly report','Priority technical support','Help with decisions and process restructuring'],
+  p2List: ['Everything in Essential','Up to 2 hours a month of changes made by us (non-cumulative)','Usage statistics with Google Analytics and a basic monthly report','Priority technical support','Help with decisions and process restructuring'],
   p2Cta: 'Choose Signature',
   exEyebrow: 'Extras', exTitle: 'Tailored to what you need',
   exLead: 'Optional services, quoted separately and only when they make sense for your restaurant.',
@@ -1122,8 +1230,8 @@ const EN = {
     {t:'Printed materials', p:'Table menu holders and per-table QR labels, matching your menu’s design.', tag:'On quote'},
     {t:'Printed menu', p:'A print-ready paper version of your digital menu.', tag:'On quote'},
     {t:'Advanced monthly performance report', p:'A monthly analysis built for management: busiest days and hours by shift, most-viewed sections and tables, and guests from abroad.', tag:'On quote'},
-    {t:'Digital Signage', p:'Your menu and highlights on a screen inside the restaurant.', tag:'On quote'},
-    {t:'Google review management', p:'Replies ready for your approval and a monthly SWOT analysis, with strengths and areas to improve to share with your team.', tag:'Coming soon'}
+    {t:'Menu on screen', p:'Your menu and highlights on a screen inside the restaurant, always up to date. With videos of dishes being prepared, it whets the appetite, shows how your kitchen cooks and helps sell.', tag:'On quote'},
+    {t:'Google review management', p:'Replies ready for your approval and a monthly SWOT analysis, with strengths and areas to improve to share with your team.', tag:'On quote'}
   ],
   cxEyebrow: 'No surprises', cxTitle: 'What if you ever want to cancel?',
   cancel: [
@@ -1156,6 +1264,23 @@ const EN = {
 };
 class Component extends DCLogic {
   renderVals() {
+    if (typeof window !== 'undefined' && !window.__bbChipSync) {
+      // Keep the floating labels in step with the phone demo (30 s cycle).
+      window.__bbChipSync = setInterval(() => {
+        try {
+          const sheet = document.querySelector('.ph-sheet');
+          if (!sheet || !sheet.getAnimations) return;
+          const ref = sheet.getAnimations().find((a) => a.animationName === 'phSheet');
+          if (!ref || ref.currentTime == null) return;
+          document.querySelectorAll('.ph-chipA, .ph-chipB').forEach((el) => {
+            el.getAnimations().forEach((a) => {
+              if ((a.animationName === 'phChipA' || a.animationName === 'phChipB') && Math.abs((a.currentTime || 0) - ref.currentTime) > 150) a.currentTime = ref.currentTime;
+              if (a.animationName === 'phChipA' || a.animationName === 'phChipB') { if (ref.playState === 'paused') a.pause(); else if (a.playState === 'paused') a.play(); }
+            });
+          });
+        } catch (e) {}
+      }, 400);
+    }
     const accent = this.props.accent ?? '#C9A55C';
     const lang = (this.state && this.state.lang) || this.props.startLang || 'pt';
     const isPT = lang !== 'en';
@@ -1227,6 +1352,8 @@ class Component extends DCLogic {
       billUnit: isAnnual ? t.unitYear : t.unitMonth,
       p1Recurring: isAnnual ? eur('299 €', '€299') : eur('29,90 €', '€29.90'),
       p2Recurring: isAnnual ? eur('499 €', '€499') : eur('49,90 €', '€49.90'),
+      p1Was: isAnnual ? eur('349 €', '€349') : eur('34,90 €', '€34.90'),
+      p2Was: isAnnual ? eur('549 €', '€549') : eur('54,90 €', '€54.90'),
       accent,
       accentText: isDark ? accent : '#7A5C24',
       srChoicesStyled,
