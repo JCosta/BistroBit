@@ -2,6 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="utf-8">
+<link rel="icon" type="image/png" href="./assets/3e7bb221518f4e2d19e4d0d5ee4685f6.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bistrobit — Menu interativo</title>
 <script src="./vendor/react.js"></script>
@@ -777,9 +778,19 @@ a{color:var(--gold)}a:hover{color:#5C4419}
 </div>
 </section>
 
+<sc-if value="{{showConsent}}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-live="polite" aria-label="{{t.ckTitle}}" style="position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60; max-width: 560px; margin: 0 auto; background: var(--b-surface); color: var(--b-text); border: 1px solid var(--b-line2); border-radius: 16px; box-shadow: 0 18px 48px rgba(0,0,0,0.3); padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px">
+<div style="font-weight: 600; color: var(--b-ink)">{{t.ckTitle}}</div>
+<div style="color: var(--b-muted)">{{t.ckText}}</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end">
+<button type="button" onClick="{{declineConsent}}" style="background: transparent; color: var(--b-text); border: 1px solid var(--b-line); border-radius: 999px; padding: 10px 18px; font: 500 14px Poppins, sans-serif; cursor: pointer; min-height: 44px">{{t.ckNo}}</button>
+<button type="button" onClick="{{acceptConsent}}" style="background: {{accent}}; color: #14120E; border: 0; border-radius: 999px; padding: 10px 22px; font: 600 14px Poppins, sans-serif; cursor: pointer; min-height: 44px">{{t.ckYes}}</button>
+</div>
+</div>
+</sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C9A55C","options":["#C9A55C","#C8924A","#B8B0A0","#9FB59A"]},"startLang":{"editor":"enum","options":["pt","en"],"default":"pt"},"startTheme":{"editor":"enum","options":["light","dark"],"default":"light"},"whatsapp":{"editor":"text","default":"351915582194","section":"Contacto"},"trackingRef":{"editor":"text","default":"PITCH-GERAL","section":"Contacto"},"$preview":{"width":1280,"height":8400}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C9A55C","options":["#C9A55C","#C8924A","#B8B0A0","#9FB59A"]},"startLang":{"editor":"enum","options":["pt","en"],"default":"pt"},"startTheme":{"editor":"enum","options":["light","dark"],"default":"light"},"whatsapp":{"editor":"text","default":"351915582194","section":"Contacto"},"trackingRef":{"editor":"text","default":"PITCH-GERAL","section":"Contacto"},"gaId":{"editor":"text","default":"G-RY69QCF4WH","section":"Analytics"},"$preview":{"width":1280,"height":8400}}'>
 const PT = {
   langLabel: 'Idioma', navCta: 'Marcar demonstração',
   navLabel: 'Secções da página',
@@ -974,6 +985,7 @@ const PT = {
   pLead: 'Um setup único de 499,90 € para desenhar a carta com a identidade da sua casa, e uma mensalidade que a mantém online, segura e sempre a funcionar.',
   billLabel: 'Período de pagamento', billMonthly: 'Mensal', billAnnual: 'Anual', billSave: 'Anual: 2 meses grátis',
   launchLabel: 'Preço de lançamento para sempre, se aderir até 31/12/2026',
+  ckTitle: 'Cookies de análise', ckText: 'Usamos o Google Analytics para perceber como esta página é lida e melhorá-la. Só ativamos se aceitar.', ckYes: 'Aceitar', ckNo: 'Recusar',
   unitMonth: '/mês', unitYear: '/ano', setupLine: '+ 499,90 € de setup, pago uma única vez',
   p1Name: 'Essencial', p1Tag: 'A sua carta digital, desenhada à medida e sempre online.',
   p1AnnualNote: 'Equivale a 24,92 €/mês. Poupa 59,80 € por ano.',
@@ -1215,6 +1227,7 @@ const EN = {
   pLead: 'A one-off €499.90 setup to design the menu around your restaurant’s identity, and a monthly fee that keeps it online, secure and always working.',
   billLabel: 'Billing period', billMonthly: 'Monthly', billAnnual: 'Annual', billSave: 'Annual: 2 months free',
   launchLabel: 'Launch price for life if you join by 31/12/2026',
+  ckTitle: 'Analytics cookies', ckText: 'We use Google Analytics to understand how this page is read and improve it. It only runs if you accept.', ckYes: 'Accept', ckNo: 'Decline',
   unitMonth: '/month', unitYear: '/year', setupLine: '+ €499.90 setup, paid only once',
   p1Name: 'Essential', p1Tag: 'Your digital menu, custom-designed and always online.',
   p1AnnualNote: 'Works out at €24.92/month. Save €59.80 a year.',
@@ -1264,6 +1277,85 @@ const EN = {
 };
 class Component extends DCLogic {
   renderVals() {
+    if (typeof window !== 'undefined' && !window.__bbInit) {
+      window.__bbInit = true;
+      const gaId = String(this.props.gaId ?? 'G-RY69QCF4WH').trim();
+      try {
+        const q = new URLSearchParams(window.location.search);
+        window.__bbLeadRef = String(q.get('ref') || q.get('r') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+      } catch (e) { window.__bbLeadRef = ''; }
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      const ctx = () => ({ lead_ref: window.__bbLeadRef || '(direto)', page_lang: window.__bbLang || 'pt' });
+      window.__bbTrack = (name, params) => { try { if (window.__bbGaOn) window.gtag('event', name, Object.assign(ctx(), params || {})); } catch (e) {} };
+      window.__bbStartGa = () => {
+        if (window.__bbGaOn || !gaId) return;
+        window.__bbGaOn = true;
+        const sc = document.createElement('script');
+        sc.async = true;
+        sc.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
+        document.head.appendChild(sc);
+        window.gtag('js', new Date());
+        window.gtag('set', 'user_properties', { lead_ref: window.__bbLeadRef || '(direto)' });
+        window.gtag('config', gaId, ctx());
+      };
+      // Clicks: every link, button and FAQ question, with the section it sits in.
+      document.addEventListener('click', (e) => {
+        const el = e.target && e.target.closest ? e.target.closest('a, button, summary') : null;
+        if (!el) return;
+        const sec = el.closest('section, header, nav');
+        window.__bbTrack('pitch_click', {
+          label: (el.textContent || el.getAttribute('aria-label') || '').trim().replace(/\s+/g, ' ').slice(0, 90),
+          link: (el.getAttribute('href') || '').slice(0, 90),
+          section: sec ? (sec.id || sec.tagName.toLowerCase()) : ''
+        });
+      }, true);
+      // Sections: first view and time spent in each one.
+      const seen = {}; const since = {};
+      const flush = (id) => {
+        if (!since[id]) return;
+        const secs = Math.round((Date.now() - since[id]) / 1000);
+        since[id] = 0;
+        if (secs >= 2) window.__bbTrack('section_time', { section: id, seconds: secs });
+      };
+      const watch = () => {
+        const list = document.querySelectorAll('section[id]');
+        if (!list.length || !window.IntersectionObserver) { setTimeout(watch, 800); return; }
+        const io = new IntersectionObserver((ents) => {
+          ents.forEach((en) => {
+            const id = en.target.id;
+            if (en.isIntersecting) {
+              since[id] = Date.now();
+              if (!seen[id]) { seen[id] = 1; window.__bbTrack('section_view', { section: id }); }
+            } else { flush(id); }
+          });
+        }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+        list.forEach((el) => io.observe(el));
+      };
+      watch();
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') Object.keys(since).forEach(flush); });
+      // Scroll depth: 25, 50, 75 and 100 %.
+      const marks = {};
+      window.addEventListener('scroll', () => {
+        const d = document.scrollingElement || document.documentElement;
+        const max = Math.max(1, d.scrollHeight - window.innerHeight);
+        const pct = Math.round((window.scrollY || d.scrollTop) / max * 100);
+        [25, 50, 75, 100].forEach((m) => { if (pct >= m && !marks[m]) { marks[m] = 1; window.__bbTrack('scroll_depth', { percent: m }); } });
+      }, { passive: true });
+      // Browser icon from the rendered Bistrobit logo (works in exported copies too).
+      const setIcon = (n) => {
+        const img = document.querySelector('img[alt="Bistrobit"]');
+        if (!img || !img.currentSrc) { if ((n || 0) < 20) setTimeout(() => setIcon((n || 0) + 1), 500); return; }
+        let l = document.querySelector('link[rel="icon"]');
+        if (!l) { l = document.createElement('link'); l.rel = 'icon'; document.head.appendChild(l); }
+        l.href = img.currentSrc;
+      };
+      setIcon(0);
+      let c = null;
+      try { c = window.localStorage.getItem('bb_consent'); } catch (e) {}
+      window.__bbConsent = c;
+      if (c === 'yes') window.__bbStartGa();
+    }
     if (typeof window !== 'undefined' && !window.__bbChipSync) {
       // Keep the floating labels in step with the phone demo (30 s cycle).
       window.__bbChipSync = setInterval(() => {
@@ -1312,8 +1404,10 @@ class Component extends DCLogic {
       + ' --b-bg: #15130F; --b-surface: #1E1B16; --b-text: #EDE7DA; --b-ink: #F7F2E7; --b-ink2: #F4EEE1; --b-muted: #C9C1B1; --b-muted2: #B5AE9F; --b-faint: #9E9787; --b-line: #4A4234; --b-line2: #3A342A; --b-line3: #2E2921;';
     const st = this.state || {};
     const wa = String(this.props.whatsapp ?? '351915582194').replace(/[^0-9]/g, '');
-    const ref = String(this.props.trackingRef ?? 'PITCH-GERAL').trim() || 'PITCH-GERAL';
+    const leadRef = (typeof window !== 'undefined' && window.__bbLeadRef) || '';
+    const ref = (String(this.props.trackingRef ?? 'PITCH-GERAL').trim() || 'PITCH-GERAL') + (leadRef ? '-' + leadRef.toUpperCase() : '');
     const langCode = isPT ? 'pt' : 'en';
+    if (typeof window !== 'undefined') window.__bbLang = langCode;
     const waText = t.waMsg + '\n\n(ref: ' + ref + '-' + langCode.toUpperCase() + ')';
     const submitForm = () => {
       const v = (id) => { const el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; };
@@ -1334,8 +1428,9 @@ class Component extends DCLogic {
           if (!res.ok) throw new Error('status ' + res.status);
           ['dfName', 'dfRest', 'dfEmail', 'dfPhone', 'dfMsg'].forEach((id) => { const el = document.getElementById(id); if (el) el.value = ''; });
           this.setState({ sending: false, sent: true });
+          if (window.__bbTrack) window.__bbTrack('generate_lead', { pacote: data.pacote, method: 'form' });
         })
-        .catch(() => { this.setState({ sending: false, fallback: true }); });
+        .catch(() => { this.setState({ sending: false, fallback: true }); if (window.__bbTrack) window.__bbTrack('lead_form_failed', { pacote: data.pacote }); });
     };
     const isAnnual = st.billing === 'annual';
     const billOn = 'background: var(--ink); color: var(--bg); border: 0; border-radius: 999px; padding: 10px 20px; font: 600 14px Poppins, sans-serif; cursor: pointer; min-height: 40px';
@@ -1382,6 +1477,9 @@ class Component extends DCLogic {
       enStyle: isPT ? off : on,
       phPT: isPT ? chipOn : chipOff,
       phEN: isPT ? chipOff : chipOn,
+      showConsent: !!String(this.props.gaId ?? 'G-RY69QCF4WH').trim() && !st.consentDone && typeof window !== 'undefined' && !window.__bbConsent,
+      acceptConsent: () => { try { window.localStorage.setItem('bb_consent', 'yes'); } catch (e) {} window.__bbConsent = 'yes'; if (window.__bbStartGa) window.__bbStartGa(); this.setState({ consentDone: true }); },
+      declineConsent: () => { try { window.localStorage.setItem('bb_consent', 'no'); } catch (e) {} window.__bbConsent = 'no'; this.setState({ consentDone: true }); },
       setPT: () => this.setState({ lang: 'pt' }),
       setEN: () => this.setState({ lang: 'en' })
     };
